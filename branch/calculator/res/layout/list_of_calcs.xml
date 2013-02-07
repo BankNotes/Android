@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <GridView
+        android:id="@+id/list_header_grid"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top" >
+    </GridView>
+
+    <GridView
+        android:id="@+id/list_grid"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="top" >
+    </GridView>
+
+</LinearLayout>
