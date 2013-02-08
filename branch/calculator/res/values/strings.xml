@@ -50,7 +50,9 @@
         <item>Sum</item>
         <item>Percent</item>
         <item>Date of loan</item>
-        <item>Credit period</item>
+        <item>Num of pays</item>
+        <item>Loan type</item>
     </string-array>
     <string name="list_of_calcs_tv">List of calculations</string>
+    <string name="refreshButton">Refresh</string>
 </resources>

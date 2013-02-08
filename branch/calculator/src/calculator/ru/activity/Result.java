@@ -17,7 +17,6 @@ import calculator.ru.R;
 
 public class Result extends Activity {
 
-
 	double sumCred;
 	int period;
 	double percent;
@@ -72,6 +71,9 @@ public class Result extends Activity {
 		headGrid.setAdapter(new ArrayAdapter<String>(this, R.layout.item,
 				R.id.tvText, headerList));
 		headGrid.setNumColumns(5);
+		// headGrid.setVerticalSpacing(5);
+		// headGrid.setHorizontalSpacing(5);
+		// headGrid.setStretchMode(GridView.NO_STRETCH);
 		headGrid.setClickable(false);
 
 		List<String> resList = new ArrayList<String>();
@@ -128,6 +130,10 @@ public class Result extends Activity {
 				R.id.tvText, resList));
 
 		resGrid.setNumColumns(5);
+		// resGrid.setVerticalSpacing(5);
+		// resGrid.setHorizontalSpacing(5);
+		// resGrid.setStretchMode(GridView.NO_STRETCH);
+
 		resGrid.setClickable(false);
 
 		TextView textHead = (TextView) findViewById(R.id.textResult);
@@ -146,7 +152,7 @@ public class Result extends Activity {
 	}
 
 	private String convertToMoneyFormat(double number) {
-		NumberFormat numFormat = NumberFormat.getCurrencyInstance(Locale
+		NumberFormat numFormat = NumberFormat.getIntegerInstance(Locale
 				.getDefault());
 		return numFormat.format(number);
 	}

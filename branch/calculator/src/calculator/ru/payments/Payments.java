@@ -8,7 +8,7 @@ import android.net.Uri;
 
 public class Payments extends Activity {
 
-	private String[][] grafik;
+	private String[][] paymentsTimeTable;
 	private double maxSumCredit = 0;
 	private double maxSumPayment;
 	private Sheduler sh;
@@ -22,12 +22,18 @@ public class Payments extends Activity {
 			.parse("content://calculator.ru.totaldatacontentprovider/totals");
 	ContentResolver cResolver;
 
+	private final int PAY_DATE = 0;
+	private final int PAYMENT = 1;
+	private final int PAY_PERCENT = 2;
+	private final int PAY_FEE = 3;
+	private final int REMAIN = 4;
+
 	public Payments(double creditSum, double percent, int period,
 			String beginDate, int payType, int numCalc, ContentResolver cr) {
 
 		this.sh = new Sheduler(creditSum, percent, period, beginDate, 0,
 				payType);
-		this.grafik = sh.getPaymentsS();
+		this.paymentsTimeTable = sh.getPaymentsS();
 		this.period = period;
 		this.idCalc = numCalc;
 		this.cResolver = cr;
@@ -42,7 +48,7 @@ public class Payments extends Activity {
 		this.sh = new Sheduler(this.maxSumCredit, percent, period, beginDate,
 				0, payType);
 		this.period = period;
-		this.grafik = sh.getPaymentsS();
+		this.paymentsTimeTable = sh.getPaymentsS();
 		this.cResolver = cr;
 		this.idCalc = numCalc;
 
@@ -56,7 +62,7 @@ public class Payments extends Activity {
 						.pow((1 + percent / 1200), period) - 1));
 		sh = new Sheduler(maxSumCredit, percent, period, beginDate, 0, payType);
 		this.period = period;
-		grafik = sh.getPaymentsS();
+		paymentsTimeTable = sh.getPaymentsS();
 		cResolver = cr;
 
 		ContentValues values = new ContentValues();
@@ -76,7 +82,6 @@ public class Payments extends Activity {
 
 	}
 
-	
 	public void calculate() {
 		ContentValues values = new ContentValues();
 		int payId;
@@ -87,11 +92,11 @@ public class Payments extends Activity {
 		String remain;
 		for (int i = 0; i < period; i++) {
 			payId = i + 1;
-			payDate = grafik[i][0];
-			pay = grafik[i][1];
-			payPercent = grafik[i][2];
-			payFee = grafik[i][3];
-			remain = grafik[i][4];
+			payDate = paymentsTimeTable[i][PAY_DATE];
+			pay = paymentsTimeTable[i][PAYMENT];
+			payPercent = paymentsTimeTable[i][PAY_PERCENT];
+			payFee = paymentsTimeTable[i][PAY_FEE];
+			remain = paymentsTimeTable[i][REMAIN];
 
 			values.put("id_calc", idCalc);
 			values.put("pay_id", payId);

@@ -20,6 +20,14 @@ public class Sheduler {
 	private int payType; // 0 - annuitet, 1 - differential
 	private double[][] payments; // array of payments
 
+	private final int ANNUITY = 0;
+	
+	
+	private final int PAYMENT = 0;
+	private final int PAY_PERCENT = 1;
+	private final int PAY_FEE = 2;
+	private final int REMAIN = 3;
+
 	public Sheduler(double sumCred, double percent, int period,
 			String beginDate, double comisPayment, int payType) {
 		comisPayment = 0; // is not work
@@ -63,7 +71,6 @@ public class Sheduler {
 		return paymentsS;
 	}
 
-	// Days of pay
 	private String[] getDateOfPay(String startDate, int numMonths) {
 		String[] d = new String[numMonths];
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -92,7 +99,6 @@ public class Sheduler {
 				/ (Math.pow((1 + percent / 1200), period) - 1);
 	}
 
-	// calculate annuitet payment
 	private double getPaymentAnu() {
 		if (payType == 0) {
 
@@ -104,14 +110,10 @@ public class Sheduler {
 
 	}
 
-	// caluculate percent
 	private double getIncrementPercent(double creditRemain, double percent) {
 		return creditRemain * percent / 1200;
 	}
 
-	/**
-	 * @return Returns Sum of all payments
-	 */
 	public double getPayout() {
 		double res = 0;
 		for (int i = 0; i < period; i++) {
@@ -120,7 +122,6 @@ public class Sheduler {
 		return res;
 	}
 
-
 	public double getPayoutPercent() {
 		double res = 0;
 		for (int i = 0; i < period; i++) {
@@ -128,7 +129,6 @@ public class Sheduler {
 		}
 		return res;
 	}
-
 
 	public double getSumPrincipal() {
 		double res = 0;
@@ -140,7 +140,7 @@ public class Sheduler {
 
 	private void createShedulePayments(double creditSum, int period,
 			double percent) {
-		if (payType == 0) // для ануитета
+		if (payType == ANNUITY) 
 		{
 			double shedulePayment = getPaymentAnu();
 
@@ -148,25 +148,21 @@ public class Sheduler {
 			for (int i = 0; i < period; i++) {
 				payments[i] = new double[4];
 			}
-			// in all arrays
-			// 0 - payment
-			// 1 - payment percent
-			// 2 - payment main
-			// 3 - remain of overdraft
+			
 
 			// fist pay
-			payments[0][0] = shedulePayment + comisPayment;
-
-			payments[0][1] = sumCred * percent / 1200;
-			payments[0][2] = shedulePayment - payments[0][1];
-			payments[0][3] = creditSum - payments[0][2];
+			payments[0][PAYMENT] = shedulePayment + comisPayment;
+			payments[0][PAY_PERCENT] = sumCred * percent / 1200;
+			payments[0][PAY_FEE] = shedulePayment - payments[0][PAY_PERCENT];
+			payments[0][REMAIN] = creditSum - payments[0][PAY_FEE];
 
 			for (int i = 1; i < period; i++) {
-				payments[i][0] = shedulePayment;
-				payments[i][1] = payments[i - 1][3] * percent / 1200;
-				payments[i][2] = payments[i][0] - payments[i][1];
-				payments[i][3] = payments[i - 1][3] - payments[i][2];
+				payments[i][PAYMENT] = shedulePayment;
+				payments[i][PAY_PERCENT] = payments[i - 1][REMAIN] * percent / 1200;
+				payments[i][PAY_FEE] = payments[i][PAYMENT] - payments[i][PAY_PERCENT];
+				payments[i][REMAIN] = payments[i - 1][REMAIN] - payments[i][PAY_FEE];
 			}
+			
 		} else {
 			double firstPay = creditSum / period
 					+ getIncrementPercent(creditSum, percent);
@@ -176,19 +172,19 @@ public class Sheduler {
 				payments[i] = new double[4];
 			}
 
-			payments[0][0] = firstPay;
-			payments[0][1] = getIncrementPercent(creditSum, percent);
-			payments[0][2] = creditSum / period;
-			payments[0][3] = creditSum - payments[0][2];
+			payments[0][PAYMENT] = firstPay;
+			payments[0][PAY_PERCENT] = getIncrementPercent(creditSum, percent);
+			payments[0][PAY_FEE] = creditSum / period;
+			payments[0][REMAIN] = creditSum - payments[0][PAY_FEE];
 
 			// other payments
 			for (int i = 1; i < period; i++) {
-				payments[i][0] = payments[0][2]
-						+ getIncrementPercent(payments[i - 1][3], percent);
-				payments[i][1] = getIncrementPercent(payments[i - 1][3],
+				payments[i][PAYMENT] = payments[0][PAY_FEE]
+						+ getIncrementPercent(payments[i - 1][REMAIN], percent);
+				payments[i][PAY_PERCENT] = getIncrementPercent(payments[i - 1][REMAIN],
 						percent);
-				payments[i][2] = creditSum / period;
-				payments[i][3] = payments[i - 1][3] - payments[i][2];
+				payments[i][PAY_FEE] = creditSum / period;
+				payments[i][REMAIN] = payments[i - 1][REMAIN] - payments[i][PAY_FEE];
 			}
 		}
 

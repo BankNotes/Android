@@ -8,7 +8,7 @@
     <string name="percent">Ставка</string>
     <string name="dateButton">Дата выдачи</string>
     <string name="anuitent">Ануитент</string>
-    <string name="different">Дифферент</string>
+    <string name="different">Дифф. платеж</string>
     <string name="calculate">Расчитать</string>
     <string name="title_activity_result">Результат</string>
     <string name="sumPay">Сумма платежа</string>
@@ -47,9 +47,11 @@
     <string name="errMesSum">Не введена сумма!</string>
     <string-array name="header_list_of_calcs">
         <item>Сумма</item>
-        <item>Процентная ставка</item>
+        <item>% ставка</item>
         <item>Дата выдачи</item>
-        <item>Срок кредитования</item>
+        <item>К-во плат-й</item>
+        <item>Кредит</item>
     </string-array>
     <string name="list_of_calcs_tv">Список графиков</string>
+    <string name="refreshButton">Обновить</string>
 </resources>

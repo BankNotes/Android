@@ -10,7 +10,6 @@ import java.io.OutputStream;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TabHost;
 import calculator.ru.R;
 
@@ -30,7 +29,7 @@ public class CalculatorMainActivityTabs extends TabActivity {
 		TabHost.TabSpec tabSpec;
 
 		tabSpec = tabHost.newTabSpec(TABS_TAG_1);
-		tabSpec.setContent(TabFactory);
+
 		tabSpec.setIndicator(getResources().getText(R.string.makeCalc));
 
 		tabSpec.setContent(new Intent(this, LoanCalculatorMainForm.class));
@@ -61,22 +60,7 @@ public class CalculatorMainActivityTabs extends TabActivity {
 		}
 	}
 
-	TabHost.TabContentFactory TabFactory = new TabHost.TabContentFactory() {
 
-		// @Override
-		public View createTabContent(String tag) {
-
-			if (tag == TABS_TAG_1) {
-				return getLayoutInflater().inflate(R.layout.calc_by_sum_cred,
-						null);
-			} else if (tag == TABS_TAG_2) {
-				return getLayoutInflater().inflate(R.layout.calc_by_sum_pay,
-						null);
-			} 
-
-			return null;
-		}
-	};
 
 	public void CopyDB(InputStream inputStream, OutputStream outputStream)
 			throws IOException {

@@ -73,7 +73,7 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 
 		Calendar c = Calendar.getInstance();
 		year = c.get(Calendar.YEAR);
-		mth = c.get(Calendar.MONTH) + 1;
+		mth = c.get(Calendar.MONTH);
 		day = c.get(Calendar.DAY_OF_MONTH);
 		textDatePayed.setText(pad(day) + "." + pad(mth + 1) + "." + year);
 
