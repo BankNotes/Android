@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.TableLayout;
 import calculator.ru.R;
 
 public class ListOfCalcs extends Activity {
@@ -26,7 +27,7 @@ public class ListOfCalcs extends Activity {
 	private CharSequence[] header;
 	private int columns, width;
 
-	@Override
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_of_calcs);
@@ -54,6 +55,9 @@ public class ListOfCalcs extends Activity {
 		headGrid.setStretchMode(GridView.NO_STRETCH);
 		headGrid.setClickable(false);
 
+		TableLayout table = (TableLayout) findViewById(R.id.control_panel);
+		table.setStretchAllColumns(true);
+		
 		updateTable();
 
 	}
@@ -81,8 +85,8 @@ public class ListOfCalcs extends Activity {
 				resList.add(calculations.getDouble(1) + "");
 				resList.add(calculations.getString(2));
 				resList.add(calculations.getInt(3) + "");
-				resList.add(calculations.getString(4) + "");
-
+				resList.add(calculations.getString(4));
+				resList.add(calculations.getString(5));
 			} while (calculations.moveToNext());
 		} else {
 			for (int i = 0; i < header.length; i++) {

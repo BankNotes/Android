@@ -4,13 +4,30 @@
     android:layout_height="fill_parent"
     android:background="#000000"
     android:orientation="vertical" >
-<Button 
-    android:id="@+id/refreshButton"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="@string/refreshButton"
-    android:onClick="refresh"
-    />
+
+    <TableLayout
+        android:id="@+id/control_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/refreshButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="refresh"
+                android:text="@string/refreshButton" />
+
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete" />
+        </TableRow>
+    </TableLayout>
+
     <GridView
         android:id="@+id/list_header_grid"
         android:layout_width="fill_parent"
