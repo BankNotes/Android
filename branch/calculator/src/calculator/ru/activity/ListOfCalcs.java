@@ -18,22 +18,20 @@ import calculator.ru.R;
 
 public class ListOfCalcs extends Activity {
 
-	private static final Uri IDATA_URI = Uri
-			.parse("content://calculator.ru.inputdatacontentprovider/input_data");
-	
+	private static final Uri LIST_URI = Uri
+			.parse("content://calculator.ru.listofloansdataprovider/list_of_loan");
+
 	private GridView listGrid;
-	private List<String> resList;
+
 	private CharSequence[] header;
 	private int columns, width;
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_of_calcs);
 
-		this.header = getResources().getTextArray(
-				R.array.header_list_of_calcs);
+		this.header = getResources().getTextArray(R.array.header_list_of_calcs);
 		List<String> headerList = new ArrayList<String>();
 
 		for (int i = 0; i < header.length; i++) {
@@ -43,51 +41,38 @@ public class ListOfCalcs extends Activity {
 		headGrid.setAdapter(new ArrayAdapter<String>(this, R.layout.item,
 				R.id.tvText, headerList));
 
-		
 		this.columns = header.length;
-		
+
 		headGrid.setNumColumns(columns);
 		Display display = ((WindowManager) getSystemService(WINDOW_SERVICE))
 				.getDefaultDisplay();
 		this.width = display.getWidth();
-		
-		
+
 		headGrid.setColumnWidth(width / columns);
 		headGrid.setVerticalSpacing(5);
 		headGrid.setHorizontalSpacing(5);
 		headGrid.setStretchMode(GridView.NO_STRETCH);
 		headGrid.setClickable(false);
 
-		this.resList = new ArrayList<String>();
-
-		this.listGrid = (GridView) findViewById(R.id.list_grid);
-		
 		updateTable();
-		
-		
 
 	}
 
 	public void refresh(View v) {
-		if(v.getId() == R.id.refreshButton) {
+		if (v.getId() == R.id.refreshButton) {
 			updateTable();
-			
-			listGrid.setAdapter(new ArrayAdapter<String>(this, R.layout.item,
-					R.id.tvText, resList));
-			listGrid.setNumColumns(columns);
-			listGrid.setColumnWidth(width / columns);
-			listGrid.setVerticalSpacing(5);
-			listGrid.setHorizontalSpacing(5);
-			listGrid.setStretchMode(GridView.NO_STRETCH);
+
 		}
 	}
-	
-	private void updateTable(){
-		String[] projectionInputData = { "inputSum", "percent", "beginDate",
-				"period", "payType" };
-		Cursor calculations = getContentResolver().query(IDATA_URI,
+
+	private void updateTable() {
+		List<String> resList = new ArrayList<String>();
+
+		this.listGrid = (GridView) findViewById(R.id.list_grid);
+		String[] projectionInputData = { "sum_of_loan", "percent",
+				"date_of_loan", "qty_payments", "credit_type", "calc_type" };
+		Cursor calculations = getContentResolver().query(LIST_URI,
 				projectionInputData, null, null, "id");
-		
 
 		if (calculations.moveToFirst()) {
 			calculations.moveToFirst();
@@ -96,7 +81,7 @@ public class ListOfCalcs extends Activity {
 				resList.add(calculations.getDouble(1) + "");
 				resList.add(calculations.getString(2));
 				resList.add(calculations.getInt(3) + "");
-				resList.add(calculations.getInt(4) + "");
+				resList.add(calculations.getString(4) + "");
 
 			} while (calculations.moveToNext());
 		} else {
@@ -106,8 +91,16 @@ public class ListOfCalcs extends Activity {
 
 		}
 		calculations.close();
+
+		listGrid.setAdapter(new ArrayAdapter<String>(this, R.layout.item,
+				R.id.tvText, resList));
+		listGrid.setNumColumns(columns);
+		listGrid.setColumnWidth(width / columns);
+		listGrid.setVerticalSpacing(5);
+		listGrid.setHorizontalSpacing(5);
+		listGrid.setStretchMode(GridView.NO_STRETCH);
 	}
-	
+
 	private String convertToMoneyFormat(double number) {
 		NumberFormat numFormat = NumberFormat.getIntegerInstance(Locale
 				.getDefault());

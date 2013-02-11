@@ -71,9 +71,9 @@ public class Result extends Activity {
 		headGrid.setAdapter(new ArrayAdapter<String>(this, R.layout.item,
 				R.id.tvText, headerList));
 		headGrid.setNumColumns(5);
-		// headGrid.setVerticalSpacing(5);
-		// headGrid.setHorizontalSpacing(5);
-		// headGrid.setStretchMode(GridView.NO_STRETCH);
+		headGrid.setVerticalSpacing(2);
+		headGrid.setHorizontalSpacing(2);
+		headGrid.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
 		headGrid.setClickable(false);
 
 		List<String> resList = new ArrayList<String>();
@@ -123,6 +123,8 @@ public class Result extends Activity {
 		resList.add(convertToMoneyFormat(payoutPercent));
 
 		resList.add(convertToMoneyFormat(payoutFee));
+		
+		resList.add(" ");
 
 		GridView resGrid = (GridView) findViewById(R.id.result_grid);
 
@@ -130,16 +132,16 @@ public class Result extends Activity {
 				R.id.tvText, resList));
 
 		resGrid.setNumColumns(5);
-		// resGrid.setVerticalSpacing(5);
-		// resGrid.setHorizontalSpacing(5);
-		// resGrid.setStretchMode(GridView.NO_STRETCH);
+		resGrid.setVerticalSpacing(2);
+		resGrid.setHorizontalSpacing(2);
+
 
 		resGrid.setClickable(false);
 
 		TextView textHead = (TextView) findViewById(R.id.textResult);
-		textHead.setText(getResources().getString(R.string.sumCred) + ":"
+		textHead.setText(getResources().getString(R.string.sumCred) + ": "
 				+ convertToMoneyFormat(payoutFee) + "\n"
-				+ getResources().getString(R.string.percent) + ":"
+				+ getResources().getString(R.string.percent) + ": "
 				+ NumberFormat.getInstance(Locale.getDefault()).format(percent)
 				+ "%");
 
