@@ -54,4 +54,5 @@
     </string-array>
     <string name="list_of_calcs_tv">Список графиков</string>
     <string name="refreshButton">Обновить</string>
+    <string name="delete_button">Удалить</string>
 </resources>

@@ -5,13 +5,16 @@
     android:background="#000000"
     android:orientation="vertical" >
 
-    <TableLayout
-        android:id="@+id/control_panel"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="horizontal" >
 
-        <TableRow>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:orientation="vertical" >
 
             <Button
                 android:id="@+id/refreshButton"
@@ -19,26 +22,27 @@
                 android:layout_height="wrap_content"
                 android:onClick="refresh"
                 android:text="@string/refreshButton" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+           
+            android:orientation="vertical" >
 
             <Button
                 android:id="@+id/delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete" />
-        </TableRow>
-    </TableLayout>
+                android:layout_gravity="right"
+                android:text="@string/delete_button" />
+        </LinearLayout>
+    </LinearLayout>
 
-    <GridView
-        android:id="@+id/list_header_grid"
+    <ListView
+        android:id="@android:id/list"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-    </GridView>
-
-    <GridView
-        android:id="@+id/list_grid"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="top" >
-    </GridView>
+        android:layout_height="fill_parent" >
+    </ListView>
 
 </LinearLayout>
