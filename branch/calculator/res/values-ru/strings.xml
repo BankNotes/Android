@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
-    <string name="app_name">Calculator</string>
+    <string name="app_name">Кредитный Калькулятор</string>
     <string name="menu_settings">Настройки</string>
     <string name="title_activity_main">Кредитный калькулятор</string>
     <string name="sumCred">Сумма кредита</string>
-    <string name="period">Сколько месяцев платить</string>
+    <string name="period">Кол-во платежей\t</string>
     <string name="percent">Ставка</string>
     <string name="dateButton">Дата выдачи</string>
     <string name="anuitent">Ануитент</string>
@@ -55,4 +55,8 @@
     <string name="list_of_calcs_tv">Список графиков</string>
     <string name="refreshButton">Обновить</string>
     <string name="delete_button">Удалить</string>
+    <string name="date_of_issue">Дата выдачи</string>
+    <string name="redemtion_date">Дата погашения</string>
+    <string name="credit_type_tv">Тип кредита</string>
+    <string name="calc_type_tv">Тип расчета</string>
 </resources>

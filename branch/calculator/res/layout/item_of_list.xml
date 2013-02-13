@@ -18,43 +18,49 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sum: "
+                android:text="@string/sumCred"
                 android:textColor="#E9F327" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Percent: "
+                android:text="@string/percent"
                 android:textColor="#E9F327" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date of loan: "
+                android:text="@string/date_of_issue"
+                android:textColor="#E9F327" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/redemtion_date"
                 android:textColor="#E9F327" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Period: "
+                android:text="@string/period"
                 android:textColor="#E9F327" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Credit type: "
+                android:text="@string/credit_type_tv"
                 android:textColor="#E9F327" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Calculation type: "
+                android:text="@string/calc_type_tv"
                 android:textColor="#E9F327" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:layout_gravity="right"
             android:orientation="vertical" >
 
             <TextView
@@ -71,6 +77,11 @@
 
             <TextView
                 android:id="@+id/date_of_loan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#88F634" />
+            <TextView
+                android:id="@+id/redemption_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#88F634" />
