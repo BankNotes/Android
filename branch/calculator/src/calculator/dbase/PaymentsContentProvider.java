@@ -30,7 +30,7 @@ public class PaymentsContentProvider extends ContentProvider {
 	private DbHelper dbHelper;
 	private static HashMap<String, String> PAYMENTS_PROJECTION_MAP;
 	private static final String TABLE_NAME = "payments";
-	private static final String AUTHORITY = "calculator.ru.paymentscontentprovider";
+	private static final String AUTHORITY = "calculator.dbase.paymentscontentprovider";
 
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + TABLE_NAME);
@@ -141,23 +141,23 @@ public class PaymentsContentProvider extends ContentProvider {
 	public String getType(Uri url) {
 		switch (URL_MATCHER.match(url)) {
 		case PAYMENTS:
-			return "vnd.android.cursor.dir/vnd.calculator.ru.payments";
+			return "vnd.android.cursor.dir/vnd.calculator.dbase.payments";
 		case PAYMENTS_ID:
-			return "vnd.android.cursor.item/vnd.calculator.ru.payments";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
 		case PAYMENTS_ID_CALC:
-			return "vnd.android.cursor.item/vnd.calculator.ru.payments";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
 		case PAYMENTS_PAY_ID:
-			return "vnd.android.cursor.item/vnd.calculator.ru.payments";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
 		case PAYMENTS_PAY:
-			return "vnd.android.cursor.item/vnd.calculator.ru.payments";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
 		case PAYMENTS_PAY_PERCENT:
-			return "vnd.android.cursor.item/vnd.calculator.ru.payments";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
 		case PAYMENTS_PAY_FEE:
-			return "vnd.android.cursor.item/vnd.calculator.ru.payments";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
 		case PAYMENTS_PAY_DATE:
-			return "vnd.android.cursor.item/vnd.calculator.ru.payments";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
 		case PAYMENTS_REMAIN:
-			return "vnd.android.cursor.item/vnd.calculator.ru.payments";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
 
 		default:
 			throw new IllegalArgumentException("Unknown URL " + url);

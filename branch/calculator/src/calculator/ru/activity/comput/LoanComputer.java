@@ -10,7 +10,8 @@ import calculator.ru.payments.Payments;
 public class LoanComputer extends Activity {
 
 	private static final Uri IDATA_URI = Uri
-			.parse("content://calculator.ru.inputdatacontentprovider/input_data");
+			.parse("content://calculator.dbase.inputdatacontentprovider/input_data");
+	
 
 	private double inputSum, percent;
 	private String beginDate;
@@ -44,20 +45,20 @@ public class LoanComputer extends Activity {
 
 	public void calcBySumOfLoan() {
 		Payments p = new Payments(inputSum, percent, period, beginDate,
-				payType, idCalc, resolver);
+				payType, idCalc, resolver, this);
 
 		p.calculate();
 	}
 
 	public void calcByPayment() {
 		Payments p = new Payments(inputSum, payType, percent, beginDate,
-				period, idCalc, resolver);
+				period, idCalc, resolver, this);
 		p.calculate();
 	}
 
 	public void calcByProfit() {
 		Payments p = new Payments(inputSum, percent, period, beginDate,
-				payType, resolver);
+				payType, resolver, this);
 		p.calculate();
 	}
 

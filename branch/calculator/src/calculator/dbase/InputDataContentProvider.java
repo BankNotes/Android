@@ -30,7 +30,7 @@ public class InputDataContentProvider extends ContentProvider {
 	private DbHelper dbHelper;
 	private static HashMap<String, String> INPUT_DATA_PROJECTION_MAP;
 	private static final String TABLE_NAME = "input_data";
-	private static final String AUTHORITY = "calculator.ru.inputdatacontentprovider";
+	private static final String AUTHORITY = "calculator.dbase.inputdatacontentprovider";
 
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + TABLE_NAME);
@@ -125,19 +125,19 @@ public class InputDataContentProvider extends ContentProvider {
 	public String getType(Uri url) {
 		switch (URL_MATCHER.match(url)) {
 		case INPUT_DATA:
-			return "vnd.android.cursor.dir/vnd.calculator.ru.input_data";
+			return "vnd.android.cursor.dir/vnd.calculator.dbase.input_data";
 		case INPUT_DATA_ID:
-			return "vnd.android.cursor.item/vnd.calculator.ru.input_data";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.input_data";
 		case INPUT_DATA_INPUTSUM:
-			return "vnd.android.cursor.item/vnd.calculator.ru.input_data";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.input_data";
 		case INPUT_DATA_PERCENT:
-			return "vnd.android.cursor.item/vnd.calculator.ru.input_data";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.input_data";
 		case INPUT_DATA_BEGINDATE:
-			return "vnd.android.cursor.item/vnd.calculator.ru.input_data";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.input_data";
 		case INPUT_DATA_PERIOD:
-			return "vnd.android.cursor.item/vnd.calculator.ru.input_data";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.input_data";
 		case INPUT_DATA_PAYTYPE:
-			return "vnd.android.cursor.item/vnd.calculator.ru.input_data";
+			return "vnd.android.cursor.item/vnd.calculator.dbase.input_data";
 
 		default:
 			throw new IllegalArgumentException("Unknown URL " + url);

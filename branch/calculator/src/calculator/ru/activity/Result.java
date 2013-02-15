@@ -37,12 +37,12 @@ public class Result extends Activity {
 
 	ArrayAdapter<String> adapter;
 	private static final Uri PAYMENT_URI = Uri
-			.parse("content://calculator.ru.paymentscontentprovider/payments");
+			.parse("content://calculator.dbase.paymentscontentprovider/payments");
 	private static final Uri IDATA_URI = Uri
-			.parse("content://calculator.ru.inputdatacontentprovider/input_data");
+			.parse("content://calculator.dbase.inputdatacontentprovider/input_data");
 
 	private static final Uri TOTALS_URI = Uri
-			.parse("content://calculator.ru.totaldatacontentprovider/totals");
+			.parse("content://calculator.dbase.totalscontentprovider/totals");
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -7,7 +7,7 @@
     <string name="period">Кол-во платежей\t</string>
     <string name="percent">Ставка</string>
     <string name="dateButton">Дата выдачи</string>
-    <string name="anuitent">Ануитент</string>
+    <string name="anuitent">Аннуитент</string>
     <string name="different">Дифф. платеж</string>
     <string name="calculate">Расчитать</string>
     <string name="title_activity_result">Результат</string>

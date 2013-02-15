@@ -3,6 +3,8 @@ package calculator.ru.activity;
 import java.util.ArrayList;
 
 import android.app.ListActivity;
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -14,87 +16,49 @@ import calculator.ru.R;
 public class ListOfCalcs extends ListActivity {
 
 	private static final Uri LIST_URI = Uri
-			.parse("content://calculator.ru.listofloansdataprovider/list_of_loan");
+			.parse("content://calculator.dbase.listofloancontentprovider/list_of_loan");
 
 	private GridView listGrid;
 
 	private CharSequence[] header;
 	private int columns, width;
+	private ContentResolver cResolver;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_of_calcs);
-		/*
-		 * this.header =
-		 * getResources().getTextArray(R.array.header_list_of_calcs);
-		 * List<String> headerList = new ArrayList<String>();
-		 * 
-		 * for (int i = 0; i < header.length; i++) {
-		 * headerList.add(header[i].toString()); } GridView headGrid =
-		 * (GridView) findViewById(R.id.list_header_grid);
-		 * headGrid.setAdapter(new ArrayAdapter<String>(this, R.layout.item,
-		 * R.id.tvText, headerList));
-		 * 
-		 * this.columns = header.length;
-		 * 
-		 * headGrid.setNumColumns(columns); Display display = ((WindowManager)
-		 * getSystemService(WINDOW_SERVICE)) .getDefaultDisplay(); this.width =
-		 * display.getWidth();
-		 * 
-		 * headGrid.setColumnWidth(width / columns);
-		 * headGrid.setVerticalSpacing(5); headGrid.setHorizontalSpacing(5);
-		 * headGrid.setStretchMode(GridView.NO_STRETCH);
-		 * headGrid.setClickable(false);
-		 * 
-		 * TableLayout table = (TableLayout) findViewById(R.id.control_panel);
-		 * table.setStretchAllColumns(true);
-		 * 
-		 * updateTable();
-		 */
+		this.cResolver = getContentResolver();
+
+		String[] projection = { "id_calc", "sum_of_loan", "percent",
+				"begin_date", "end_date", "qty_payments", "credit_type",
+				"calc_type" };
+		String selection = null;
+		String[] selectionArgs = null;
+		String sortOrder = "id_calc";
+		
+		Cursor cursor = cResolver.query(LIST_URI, projection, selection,
+				selectionArgs, sortOrder);
+		cursor.moveToFirst();
+		
+		
 		ArrayList<ResCalcItem> list = new ArrayList<ResCalcItem>();
-		list.add(new ResCalcItem("1", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
-		list.add(new ResCalcItem("2", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
-		list.add(new ResCalcItem("3", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
-		list.add(new ResCalcItem("4", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
-		list.add(new ResCalcItem("5", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
-		list.add(new ResCalcItem("6", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
-		list.add(new ResCalcItem("7", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
-		list.add(new ResCalcItem("1", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
-		list.add(new ResCalcItem("1", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
-		list.add(new ResCalcItem("1", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
-		list.add(new ResCalcItem("1", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
-		list.add(new ResCalcItem("1", "1000000", "12", "12.01.2012", "50",
-				"Annuitet", "By sum of loan"));
+		while(cursor.moveToNext()){
+			list.add(new ResCalcItem(cursor.getInt(0)+"", 
+					cursor.getDouble(1)+"", cursor.getDouble(2)+"", cursor.getString(3), 
+					cursor.getString(4), cursor.getInt(5)+"", cursor.getString(6), cursor.getString(7)));
+		}
+		
+//		list.add(new ResCalcItem("1", "1000000", "12", "12.01.2012",
+//				"14.12.2015", "50", "Annuitet", "By sum of loan"));
 
 		ListAdapter adapter = new SimpleAdapter(this, list,
-				R.layout.item_of_list, 
-				new String[] { 
-								ResCalcItem.SUM,
-								ResCalcItem.PERCENT,
-								ResCalcItem.DATE,
-								ResCalcItem.QTY_PAYMENTS,
-								ResCalcItem.CREDIT_TYPE,
-								ResCalcItem.CALC_TYPE
-							 }, 
-				new int[] { 
-								R.id.sum,
-								R.id.percent,
-								R.id.date_of_loan,
-								R.id.period,
-								R.id.credit_type,
-								R.id.calc_type
-							});
+				R.layout.item_of_list, new String[] { ResCalcItem.SUM,
+						ResCalcItem.PERCENT, ResCalcItem.BEGIN_DATE,
+						ResCalcItem.END_DATE, ResCalcItem.QTY_PAYMENTS,
+						ResCalcItem.CREDIT_TYPE, ResCalcItem.CALC_TYPE },
+				new int[] { R.id.sum, R.id.percent, R.id.begin_date,
+						R.id.end_date, R.id.period, R.id.credit_type,
+						R.id.calc_type });
 		setListAdapter(adapter);
 	}
 

@@ -3,23 +3,33 @@ package calculator.ru.payments;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import calculator.ru.R;
 
 public class Payments extends Activity {
 
 	private String[][] paymentsTimeTable;
-	private double maxSumCredit = 0;
+	private double sumOfLoan;
 	private double maxSumPayment;
 	private Sheduler sh;
 	private int period;
 	private int idCalc;
+	private double percent;
+	private String beginDate;
+	private String endDate;
+	private String paymentType;
+	private String calcType;
+	
 	private static final Uri IDATA_URI = Uri
-			.parse("content://calculator.ru.inputdatacontentprovider/input_data");
+			.parse("content://calculator.dbase.inputdatacontentprovider/input_data");
 	private static final Uri PAYMENT_URI = Uri
-			.parse("content://calculator.ru.paymentscontentprovider/payments");
+			.parse("content://calculator.dbase.paymentscontentprovider/payments");
 	private static final Uri TOTALS_URI = Uri
-			.parse("content://calculator.ru.totaldatacontentprovider/totals");
+			.parse("content://calculator.dbase.totalscontentprovider/totals");
+	private static final Uri LIST_URI = Uri
+			.parse("content://calculator.dbase.listofloancontentprovider/list_of_loan");
 	ContentResolver cResolver;
 
 	private final int PAY_DATE = 0;
@@ -28,52 +38,72 @@ public class Payments extends Activity {
 	private final int PAY_FEE = 3;
 	private final int REMAIN = 4;
 
+	String[] loanTypes;
+	
 	public Payments(double creditSum, double percent, int period,
-			String beginDate, int payType, int numCalc, ContentResolver cr) {
-
+			String beginDate, int payType, int numCalc, ContentResolver cr, Context context) {
+		this.sumOfLoan = creditSum;
 		this.sh = new Sheduler(creditSum, percent, period, beginDate, 0,
 				payType);
 		this.paymentsTimeTable = sh.getPaymentsS();
 		this.period = period;
 		this.idCalc = numCalc;
 		this.cResolver = cr;
+		this.beginDate = beginDate;
+		this.percent=percent;
+		this.loanTypes = context.getResources().getStringArray(R.array.loanType);
+//		this.payType=payType;
+		this.paymentType = getPaymentType(payType);
+		this.calcType=this.loanTypes[0];  // by sum of loan
+		
 	}
 
 	public Payments(double paySum, int payType, double percent,
-			String beginDate, int period, int numCalc, ContentResolver cr) {
+			String beginDate, int period, int numCalc, ContentResolver cr, Context context) {
 
-		this.maxSumCredit = paySum
+		this.sumOfLoan = paySum
 				/ ((percent / 1200 * Math.pow((1 + percent / 1200), period)) / (Math
 						.pow((1 + percent / 1200), period) - 1));
-		this.sh = new Sheduler(this.maxSumCredit, percent, period, beginDate,
-				0, payType);
+		this.sh = new Sheduler(this.sumOfLoan, percent, period, beginDate, 0,
+				payType);
 		this.period = period;
+		this.loanTypes = context.getResources().getStringArray(R.array.loanType);
 		this.paymentsTimeTable = sh.getPaymentsS();
 		this.cResolver = cr;
 		this.idCalc = numCalc;
-
+		this.beginDate = beginDate;
+		this.percent=percent;
+//		this.payType=payType;
+		this.paymentType = getPaymentType(payType);
+		this.calcType=this.loanTypes[1];  // by pay sum
 	}
 
 	public Payments(double ammountIncom, double percent, int period,
-			String beginDate, int payType, ContentResolver cr) {
-		maxSumPayment = 0.4 * ammountIncom;
-		maxSumCredit = maxSumPayment
+			String beginDate, int payType, ContentResolver cr, Context context) {
+		this.beginDate = beginDate;
+		this.percent=percent;
+		this.maxSumPayment = 0.4 * ammountIncom;
+		this.loanTypes = context.getResources().getStringArray(R.array.loanType);
+		this.sumOfLoan = maxSumPayment
 				/ ((percent / 1200 * Math.pow((1 + percent / 1200), period)) / (Math
 						.pow((1 + percent / 1200), period) - 1));
-		sh = new Sheduler(maxSumCredit, percent, period, beginDate, 0, payType);
+		this.sh = new Sheduler(sumOfLoan, percent, period, beginDate, 0, payType);
 		this.period = period;
-		paymentsTimeTable = sh.getPaymentsS();
-		cResolver = cr;
+		this.paymentsTimeTable = sh.getPaymentsS();
+		this.cResolver = cr;
+//		this.payType=payType;
+		this.paymentType = getPaymentType(payType);
+		this.calcType=this.loanTypes[2]; // by profit
 
-		ContentValues values = new ContentValues();
+		ContentValues inputValues = new ContentValues();
 
-		values.put("inputSum", maxSumCredit);
-		values.put("percent", percent);
-		values.put("period", period);
-		values.put("payType", payType);
-		values.put("beginDate", beginDate);
+		inputValues.put("inputSum", sumOfLoan);
+		inputValues.put("percent", percent);
+		inputValues.put("period", period);
+		inputValues.put("payType", payType);
+		inputValues.put("beginDate", beginDate);
 
-		cr.insert(IDATA_URI, values);
+		cr.insert(IDATA_URI, inputValues);
 
 		Cursor c = cr.query(IDATA_URI, null, null, null, null);
 		c.moveToLast();
@@ -112,6 +142,31 @@ public class Payments extends Activity {
 
 		}
 		setSumOfPayments();
+
+		String[] projection = { "id_calc", "pay_id", "pay_date" };
+		String where = "id_calc=?";
+		String[] whereArgs = { idCalc + "" };
+		String sortOrder = "id_calc, pay_id";
+
+		Cursor cur = cResolver.query(PAYMENT_URI, projection, where, whereArgs,
+				sortOrder);
+		cur.moveToLast();
+		this.endDate = cur.getString(2);
+		cur.close();
+
+		ContentValues listValues = new ContentValues();
+		listValues.put("id_calc", this.idCalc);
+		listValues.put("sum_of_loan", this.sumOfLoan);
+		listValues.put("percent", this.percent);
+		listValues.put("begin_date", this.beginDate);
+		listValues.put("end_date", this.endDate);
+		listValues.put("qty_payments", this.period);
+		listValues.put("credit_type", this.paymentType);
+		listValues.put("calc_type", this.calcType);
+		
+		cResolver.insert(LIST_URI, listValues);
+		listValues.clear();
+
 	}
 
 	private void setSumOfPayments() {
@@ -130,5 +185,14 @@ public class Payments extends Activity {
 		cResolver.insert(TOTALS_URI, sumValues);
 
 		sumValues.clear();
+	}
+	
+	private String getPaymentType(int payType){
+		if(payType==0){
+			return getResources().getString(R.string.anuitent);
+		}
+		else {
+			return getResources().getString(R.string.different);
+		}
 	}
 }

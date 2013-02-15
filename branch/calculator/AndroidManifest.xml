@@ -37,17 +37,16 @@
 
         <provider
             android:name="calculator.dbase.PaymentsContentProvider"
-            android:authorities="calculator.ru.paymentscontentprovider" />
+            android:authorities="calculator.dbase.paymentscontentprovider" />
         <provider
             android:name="calculator.dbase.InputDataContentProvider"
-            android:authorities="calculator.ru.inputdatacontentprovider" />
+            android:authorities="calculator.dbase.inputdatacontentprovider" />
         <provider
-            android:name="calculator.dbase.TotalDataContentProvider"
-            android:authorities="calculator.ru.totaldatacontentprovider" />
+            android:name="calculator.dbase.TotalsContentProvider"
+            android:authorities="calculator.dbase.totalscontentprovider" />
         <provider
-            android:name="calculator.dbase.ListOfLoansDataProvider"
-            android:authorities="calculator.ru.listofloansdataprovider" >
-        </provider>
+            android:name="calculator.dbase.ListOfLoanContentProvider"
+            android:authorities="calculator.dbase.listofloancontentprovider" />
     </application>
 
 </manifest>

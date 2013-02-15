@@ -76,12 +76,12 @@
                 android:textColor="#88F634" />
 
             <TextView
-                android:id="@+id/date_of_loan"
+                android:id="@+id/begin_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#88F634" />
             <TextView
-                android:id="@+id/redemption_date"
+                android:id="@+id/end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#88F634" />

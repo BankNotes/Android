@@ -25,6 +25,7 @@ public final class R {
     }
     public static final class id {
         public static final int anuitent=0x7f080007;
+        public static final int begin_date=0x7f08000e;
         public static final int calc_type=0x7f080011;
         public static final int calculateButton=0x7f080009;
         public static final int chk_box=0x7f080012;
@@ -32,14 +33,13 @@ public final class R {
         public static final int credit_type=0x7f080010;
         public static final int dateButton=0x7f080005;
         public static final int dateField=0x7f080006;
-        public static final int date_of_loan=0x7f08000e;
         public static final int delete=0x7f080014;
         public static final int different=0x7f080008;
+        public static final int end_date=0x7f08000f;
         public static final int inputSum=0x7f080002;
         public static final int menu_settings=0x7f080018;
         public static final int percent=0x7f080004;
         public static final int period=0x7f080003;
-        public static final int redemption_date=0x7f08000f;
         public static final int refreshButton=0x7f080013;
         public static final int result_grid=0x7f080017;
         public static final int result_header=0x7f080016;
