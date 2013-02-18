@@ -38,46 +38,9 @@ public class Payments extends Activity {
 	private final int PAY_FEE = 3;
 	private final int REMAIN = 4;
 
-	String[] loanTypes;
+	private String[] loanTypes;
+	private Context context;
 	
-	public Payments(double creditSum, double percent, int period,
-			String beginDate, int payType, int numCalc, ContentResolver cr, Context context) {
-		this.sumOfLoan = creditSum;
-		this.sh = new Sheduler(creditSum, percent, period, beginDate, 0,
-				payType);
-		this.paymentsTimeTable = sh.getPaymentsS();
-		this.period = period;
-		this.idCalc = numCalc;
-		this.cResolver = cr;
-		this.beginDate = beginDate;
-		this.percent=percent;
-		this.loanTypes = context.getResources().getStringArray(R.array.loanType);
-//		this.payType=payType;
-		this.paymentType = getPaymentType(payType);
-		this.calcType=this.loanTypes[0];  // by sum of loan
-		
-	}
-
-	public Payments(double paySum, int payType, double percent,
-			String beginDate, int period, int numCalc, ContentResolver cr, Context context) {
-
-		this.sumOfLoan = paySum
-				/ ((percent / 1200 * Math.pow((1 + percent / 1200), period)) / (Math
-						.pow((1 + percent / 1200), period) - 1));
-		this.sh = new Sheduler(this.sumOfLoan, percent, period, beginDate, 0,
-				payType);
-		this.period = period;
-		this.loanTypes = context.getResources().getStringArray(R.array.loanType);
-		this.paymentsTimeTable = sh.getPaymentsS();
-		this.cResolver = cr;
-		this.idCalc = numCalc;
-		this.beginDate = beginDate;
-		this.percent=percent;
-//		this.payType=payType;
-		this.paymentType = getPaymentType(payType);
-		this.calcType=this.loanTypes[1];  // by pay sum
-	}
-
 	public Payments(double ammountIncom, double percent, int period,
 			String beginDate, int payType, ContentResolver cr, Context context) {
 		this.beginDate = beginDate;
@@ -91,6 +54,7 @@ public class Payments extends Activity {
 		this.period = period;
 		this.paymentsTimeTable = sh.getPaymentsS();
 		this.cResolver = cr;
+		this.context = context;
 //		this.payType=payType;
 		this.paymentType = getPaymentType(payType);
 		this.calcType=this.loanTypes[2]; // by profit
@@ -110,6 +74,47 @@ public class Payments extends Activity {
 		idCalc = c.getInt(0);
 		c.close();
 
+	}
+
+	public Payments(double creditSum, double percent, int period,
+			String beginDate, int payType, int numCalc, ContentResolver cr, Context context) {
+		this.sumOfLoan = creditSum;
+		this.sh = new Sheduler(creditSum, percent, period, beginDate, 0,
+				payType);
+		this.paymentsTimeTable = sh.getPaymentsS();
+		this.period = period;
+		this.idCalc = numCalc;
+		this.cResolver = cr;
+		this.beginDate = beginDate;
+		this.percent=percent;
+		this.context = context;
+		this.loanTypes = context.getResources().getStringArray(R.array.loanType);
+//		this.payType=payType;
+		this.paymentType = getPaymentType(payType);
+		this.loanTypes = context.getResources().getStringArray(R.array.calcTypes);
+		this.calcType= loanTypes[0]; // by sum of loan
+		
+	}
+
+	public Payments(double paySum, int payType, double percent,
+			String beginDate, int period, int numCalc, ContentResolver cr, Context context) {
+
+		this.sumOfLoan = paySum
+				/ ((percent / 1200 * Math.pow((1 + percent / 1200), period)) / (Math
+						.pow((1 + percent / 1200), period) - 1));
+		this.sh = new Sheduler(this.sumOfLoan, percent, period, beginDate, 0,
+				payType);
+		this.period = period;
+		this.context = context;
+		this.loanTypes = context.getResources().getStringArray(R.array.loanType);
+		this.paymentsTimeTable = sh.getPaymentsS();
+		this.cResolver = cr;
+		this.idCalc = numCalc;
+		this.beginDate = beginDate;
+		this.percent=percent;
+//		this.payType=payType;
+		this.paymentType = getPaymentType(payType);
+		this.calcType=this.loanTypes[1];  // by pay sum
 	}
 
 	public void calculate() {
@@ -169,6 +174,13 @@ public class Payments extends Activity {
 
 	}
 
+	private String getPaymentType(int payType){
+		if(payType==1) {
+			return context.getResources().getString(R.string.different);
+		}
+		return context.getResources().getString(R.string.anuitent);
+	}
+	
 	private void setSumOfPayments() {
 
 		double sumPays = sh.getPayout();
@@ -185,14 +197,5 @@ public class Payments extends Activity {
 		cResolver.insert(TOTALS_URI, sumValues);
 
 		sumValues.clear();
-	}
-	
-	private String getPaymentType(int payType){
-		if(payType==0){
-			return getResources().getString(R.string.anuitent);
-		}
-		else {
-			return getResources().getString(R.string.different);
-		}
 	}
 }

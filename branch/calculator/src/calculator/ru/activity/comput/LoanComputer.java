@@ -3,6 +3,7 @@ package calculator.ru.activity.comput;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import calculator.ru.payments.Payments;
@@ -17,15 +18,17 @@ public class LoanComputer extends Activity {
 	private String beginDate;
 	private int payType, idCalc, period;
 	private ContentResolver resolver;
+	private Context context;
 
 	public LoanComputer(double inputSum, int period, double percent,
-			String beginDate, int payType, ContentResolver resolver) {
+			String beginDate, int payType, ContentResolver resolver, Context context) {
 		this.inputSum = inputSum;
 		this.period = period;
 		this.percent = percent;
 		this.beginDate = beginDate;
 		this.payType = payType;
 		this.resolver = resolver;
+		this.context = context;
 
 		ContentValues values = new ContentValues();
 
@@ -45,20 +48,20 @@ public class LoanComputer extends Activity {
 
 	public void calcBySumOfLoan() {
 		Payments p = new Payments(inputSum, percent, period, beginDate,
-				payType, idCalc, resolver, this);
+				payType, idCalc, resolver, this.context);
 
 		p.calculate();
 	}
 
 	public void calcByPayment() {
 		Payments p = new Payments(inputSum, payType, percent, beginDate,
-				period, idCalc, resolver, this);
+				period, idCalc, resolver, this.context);
 		p.calculate();
 	}
 
 	public void calcByProfit() {
 		Payments p = new Payments(inputSum, percent, period, beginDate,
-				payType, resolver, this);
+				payType, resolver, this.context);
 		p.calculate();
 	}
 

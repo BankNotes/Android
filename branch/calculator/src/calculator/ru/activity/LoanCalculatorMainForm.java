@@ -137,7 +137,7 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 				payType = 1;
 			}
 			LoanComputer lCompute = new LoanComputer(inputSum, period, percent,
-					beginDate, payType, this.getContentResolver());
+					beginDate, payType, this.getContentResolver(), this);
 
 			switch (calcType) {
 			case 0:

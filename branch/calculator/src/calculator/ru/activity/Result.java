@@ -93,7 +93,8 @@ public class Result extends Activity {
 				resList.add(payments.getString(1));
 
 				for (int n = 2; n <= 5; n++) {
-					resList.add(convertToMoneyFormat(payments.getDouble(n)));
+					resList.add(MoneyConvertor.convertToMoneyFormat(payments
+							.getDouble(n)));
 				}
 
 			} while (payments.moveToNext());
@@ -118,12 +119,12 @@ public class Result extends Activity {
 		}
 		resList.add(getResources().getText(R.string.total).toString());
 
-		resList.add(convertToMoneyFormat(payout));
+		resList.add(MoneyConvertor.convertToMoneyFormat(payout));
 
-		resList.add(convertToMoneyFormat(payoutPercent));
+		resList.add(MoneyConvertor.convertToMoneyFormat(payoutPercent));
 
-		resList.add(convertToMoneyFormat(payoutFee));
-		
+		resList.add(MoneyConvertor.convertToMoneyFormat(payoutFee));
+
 		resList.add(" ");
 
 		GridView resGrid = (GridView) findViewById(R.id.result_grid);
@@ -135,12 +136,12 @@ public class Result extends Activity {
 		resGrid.setVerticalSpacing(2);
 		resGrid.setHorizontalSpacing(2);
 
-
 		resGrid.setClickable(false);
 
 		TextView textHead = (TextView) findViewById(R.id.textResult);
+
 		textHead.setText(getResources().getString(R.string.sumCred) + ": "
-				+ convertToMoneyFormat(payoutFee) + "\n"
+				+ MoneyConvertor.convertToMoneyFormat(payoutFee) + "\n"
 				+ getResources().getString(R.string.percent) + ": "
 				+ NumberFormat.getInstance(Locale.getDefault()).format(percent)
 				+ "%");
@@ -151,11 +152,5 @@ public class Result extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.result, menu);
 		return true;
-	}
-
-	private String convertToMoneyFormat(double number) {
-		NumberFormat numFormat = NumberFormat.getIntegerInstance(Locale
-				.getDefault());
-		return numFormat.format(number);
 	}
 }
