@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 import calculator.ru.R;
+import calculator.ru.activity.service.MoneyConvertor;
 
 public class Result extends Activity {
 

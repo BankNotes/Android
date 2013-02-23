@@ -37,17 +37,18 @@ public final class R {
         public static final int different=0x7f080008;
         public static final int end_date=0x7f08000f;
         public static final int inputSum=0x7f080002;
-        public static final int menu_settings=0x7f080018;
+        public static final int menu_settings=0x7f080019;
+        public static final int my_list=0x7f080015;
         public static final int percent=0x7f080004;
         public static final int period=0x7f080003;
         public static final int refreshButton=0x7f080013;
-        public static final int result_grid=0x7f080017;
-        public static final int result_header=0x7f080016;
+        public static final int result_grid=0x7f080018;
+        public static final int result_header=0x7f080017;
         public static final int showCalc=0x7f08000a;
         public static final int showPrevCalc=0x7f08000b;
         public static final int spinner_calc_type=0x7f080000;
         public static final int sum=0x7f08000d;
-        public static final int textResult=0x7f080015;
+        public static final int textResult=0x7f080016;
         public static final int tvText=0x7f08000c;
     }
     public static final class layout {
