@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 import calculator.ru.R;
+import calculator.ru.activity.service.MoneyConvertor;
 
 public class Result extends Activity {
 
@@ -37,12 +38,12 @@ public class Result extends Activity {
 
 	ArrayAdapter<String> adapter;
 	private static final Uri PAYMENT_URI = Uri
-			.parse("content://calculator.ru.paymentscontentprovider/payments");
+			.parse("content://calculator.dbase.paymentscontentprovider/payments");
 	private static final Uri IDATA_URI = Uri
-			.parse("content://calculator.ru.inputdatacontentprovider/input_data");
+			.parse("content://calculator.dbase.inputdatacontentprovider/input_data");
 
 	private static final Uri TOTALS_URI = Uri
-			.parse("content://calculator.ru.totaldatacontentprovider/totals");
+			.parse("content://calculator.dbase.totalscontentprovider/totals");
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,9 +72,9 @@ public class Result extends Activity {
 		headGrid.setAdapter(new ArrayAdapter<String>(this, R.layout.item,
 				R.id.tvText, headerList));
 		headGrid.setNumColumns(5);
-		// headGrid.setVerticalSpacing(5);
-		// headGrid.setHorizontalSpacing(5);
-		// headGrid.setStretchMode(GridView.NO_STRETCH);
+		headGrid.setVerticalSpacing(2);
+		headGrid.setHorizontalSpacing(2);
+		headGrid.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
 		headGrid.setClickable(false);
 
 		List<String> resList = new ArrayList<String>();
@@ -93,7 +94,8 @@ public class Result extends Activity {
 				resList.add(payments.getString(1));
 
 				for (int n = 2; n <= 5; n++) {
-					resList.add(convertToMoneyFormat(payments.getDouble(n)));
+					resList.add(MoneyConvertor.convertToMoneyFormat(payments
+							.getDouble(n)));
 				}
 
 			} while (payments.moveToNext());
@@ -118,11 +120,13 @@ public class Result extends Activity {
 		}
 		resList.add(getResources().getText(R.string.total).toString());
 
-		resList.add(convertToMoneyFormat(payout));
+		resList.add(MoneyConvertor.convertToMoneyFormat(payout));
 
-		resList.add(convertToMoneyFormat(payoutPercent));
+		resList.add(MoneyConvertor.convertToMoneyFormat(payoutPercent));
 
-		resList.add(convertToMoneyFormat(payoutFee));
+		resList.add(MoneyConvertor.convertToMoneyFormat(payoutFee));
+
+		resList.add(" ");
 
 		GridView resGrid = (GridView) findViewById(R.id.result_grid);
 
@@ -130,16 +134,16 @@ public class Result extends Activity {
 				R.id.tvText, resList));
 
 		resGrid.setNumColumns(5);
-		// resGrid.setVerticalSpacing(5);
-		// resGrid.setHorizontalSpacing(5);
-		// resGrid.setStretchMode(GridView.NO_STRETCH);
+		resGrid.setVerticalSpacing(2);
+		resGrid.setHorizontalSpacing(2);
 
 		resGrid.setClickable(false);
 
 		TextView textHead = (TextView) findViewById(R.id.textResult);
-		textHead.setText(getResources().getString(R.string.sumCred) + ":"
-				+ convertToMoneyFormat(payoutFee) + "\n"
-				+ getResources().getString(R.string.percent) + ":"
+
+		textHead.setText(getResources().getString(R.string.sumCred) + ": "
+				+ MoneyConvertor.convertToMoneyFormat(payoutFee) + "\n"
+				+ getResources().getString(R.string.percent) + ": "
 				+ NumberFormat.getInstance(Locale.getDefault()).format(percent)
 				+ "%");
 
@@ -149,11 +153,5 @@ public class Result extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.result, menu);
 		return true;
-	}
-
-	private String convertToMoneyFormat(double number) {
-		NumberFormat numFormat = NumberFormat.getIntegerInstance(Locale
-				.getDefault());
-		return numFormat.format(number);
 	}
 }

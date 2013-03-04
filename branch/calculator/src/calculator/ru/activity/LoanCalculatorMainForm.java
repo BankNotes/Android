@@ -43,7 +43,6 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 	private static TextView textDatePayed;
 	private CharSequence[] loanTypes, calcTypes;
 
-	private TextView typeLabel;
 	private int calcType = 0;
 
 	@Override
@@ -51,10 +50,7 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.calc_form);
 
-		typeLabel = (TextView) findViewById(R.id.computing_type);
 		calcTypes = getResources().getStringArray(R.array.calcTypes);
-
-		typeLabel.setText(String.format("%s", calcTypes[0]));
 
 		loanTypes = getResources().getTextArray(R.array.loanType);
 
@@ -67,6 +63,7 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 		spin.setAdapter(arrAdapter);
 
 		editTextInputSum = (EditText) findViewById(R.id.inputSum);
+		editTextInputSum.setHint(calcTypes[0]);
 		editTextPeriod = (EditText) findViewById(R.id.period);
 		editTextPercent = (EditText) findViewById(R.id.percent);
 		textDatePayed = (TextView) findViewById(R.id.dateField);
@@ -87,9 +84,8 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 	public void onItemSelected(AdapterView<?> parent, View v, int position,
 			long id) {
 
-		typeLabel.setText(String.format("%s", calcTypes[position]));
 		calcType = position;
-
+		editTextInputSum.setHint(calcTypes[position]);
 	}
 
 	public void onNothingSelected(AdapterView<?> arg0) {
@@ -106,7 +102,7 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 
 	public void calculate(View v) {
 		if (v.getId() == R.id.calculateButton) {
-			
+
 			if (editTextInputSum.getText().toString().equals("")) {
 				showMessage(getResources().getText(R.string.errMesSum)
 						.toString(), editTextInputSum.getText().toString());
@@ -137,7 +133,7 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 				payType = 1;
 			}
 			LoanComputer lCompute = new LoanComputer(inputSum, period, percent,
-					beginDate, payType, this.getContentResolver());
+					beginDate, payType, this.getContentResolver(), this);
 
 			switch (calcType) {
 			case 0:

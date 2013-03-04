@@ -110,7 +110,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+		// fill in your code here
 	}
 
 	/**
@@ -131,39 +131,43 @@ public class DbHelper extends SQLiteOpenHelper {
 		OutputStream myOutput = null;
 		SQLiteDatabase database = null;
 
+		// only proceed in case the database does not exist
 		if (!checkDataBaseExistence()) {
-
+			// get the database
 			database = this.getReadableDatabase();
 			try {
-
+				// Open your local db as the input stream
 				myInput = myContext.getAssets().open(DB_NAME);
 
+				// Path to the just created empty db
 				String outFileName = DB_PATH + DB_NAME;
 
+				// Open the empty db as the output stream
 				myOutput = new FileOutputStream(outFileName);
 
+				// transfer bytes from the input file to the output file
 				byte[] buffer = new byte[1024];
 				int length;
 				while ((length = myInput.read(buffer)) > 0) {
 					myOutput.write(buffer, 0, length);
 				}
 			} catch (FileNotFoundException e) {
-
+				// handle your exception here
 			} catch (IOException e) {
-
+				// handle your exception here
 			} finally {
 				try {
-
+					// Close the streams
 					myOutput.flush();
 					myOutput.close();
 					myInput.close();
-
+					// close the database in case it is opened
 					if (database != null && database.isOpen()) {
 						database.close();
 					}
 
 				} catch (Exception e) {
-
+					// handle your exception here
 				}
 			}
 		}
@@ -185,7 +189,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			String dbPath = DB_PATH + DB_NAME;
 			// try to open the database
 			dbToBeVerified = SQLiteDatabase.openDatabase(dbPath, null,
-					SQLiteDatabase.OPEN_READWRITE);
+					SQLiteDatabase.OPEN_READONLY);
 
 		} catch (SQLiteException e) {
 			// do nothing since the database does not exist
@@ -193,6 +197,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 		// in case it exists, close it
 		if (dbToBeVerified != null) {
+			// close DB
 			dbToBeVerified.close();
 
 		}
