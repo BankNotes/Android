@@ -8,13 +8,13 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import calculator.ru.R;
 import calculator.ru.activity.item.ItemOfCalc;
 
-public class ListOfCalcs extends Activity implements OnItemSelectedListener {
+public class ListOfCalcs extends Activity {
 
 	final int ID = 0;
 	final int SUM_OF_LOAN = 1;
@@ -46,34 +46,24 @@ public class ListOfCalcs extends Activity implements OnItemSelectedListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_of_calcs);
 		this.cResolver = getContentResolver();
-		// this.arrayList = new ArrayList<ResCalcItem>();
-
-		// arrayList.add(new ItemOfCalc(0, 3, 20000.0, 20.0, "12.09.2012",
-		// "12.12.2012", "Annu", "By profit", false));
+		
 		updateList();
 
-	}
+		Button refreshButton = (Button) findViewById(R.id.refreshButton);
+		refreshButton.setOnClickListener(new OnClickListener() {
 
-	public void refresh(View v) {
-		if (v.getId() == R.id.refreshButton) {
-			updateList();
-		}
-	}
-
-	public void delete(View v) {
-		if (v.getId() == R.id.delete) {
-
-			ArrayList<ItemOfCalc> selectedItems = myAdapter.getSelectedItems();
-			
-			ArrayList<String> ids = new ArrayList<String>();
-			for (ItemOfCalc i : selectedItems) {
-				ids.add(i.getId()+"");
+			public void onClick(View v) {
+				updateList();
 			}
-			
-			String[] selectionArgs =(String[]) ids.toArray();
-			cResolver.delete(LIST_URI, "id_calc=?", selectionArgs);
-			cResolver.delete(PAYS_URI, "id_calc=?", selectionArgs);
-		}
+		});
+
+		Button deleteButton = (Button) findViewById(R.id.delete_item_button);
+		deleteButton.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				deleteItem();
+			}
+		});
 	}
 
 	private void updateList() {
@@ -96,29 +86,22 @@ public class ListOfCalcs extends Activity implements OnItemSelectedListener {
 
 		lView = (ListView) findViewById(R.id.my_list);
 		lView.setAdapter(myAdapter);
-		/*
-		 * while (cursor.moveToNext()) { arrayList.add(new
-		 * ResCalcItem(cursor.getInt(0) + "", MoneyConvertor
-		 * .convertToMoneyFormat(cursor.getDouble(1)), cursor .getDouble(2) +
-		 * "", cursor.getString(3), cursor .getString(4), cursor.getInt(5) + "",
-		 * cursor.getString(6), cursor.getString(7))); } cursor.close(); adapter
-		 * = new SimpleAdapter(this, arrayList, R.layout.item_of_list, new
-		 * String[] { ResCalcItem.SUM, ResCalcItem.PERCENT,
-		 * ResCalcItem.BEGIN_DATE, ResCalcItem.END_DATE,
-		 * ResCalcItem.QTY_PAYMENTS, ResCalcItem.CREDIT_TYPE,
-		 * ResCalcItem.CALC_TYPE }, new int[] { R.id.sum, R.id.percent,
-		 * R.id.begin_date, R.id.end_date, R.id.period, R.id.credit_type,
-		 * R.id.calc_type }); setListAdapter(adapter);
-		 */
+		
 	}
 
-	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-			long arg3) {
+	private void deleteItem() {
+		ArrayList<ItemOfCalc> selectedItems = myAdapter.getSelectedItems();
+
+		ArrayList<String> ids = new ArrayList<String>();
+		for (ItemOfCalc i : selectedItems) {
+			ids.add(i.getId() + "");
+		}
+
+		String[] selectionArgs = ids.toArray(new String[ids.size()]);
+		cResolver.delete(LIST_URI, "id_calc=?", selectionArgs);
+		cResolver.delete(PAYS_URI, "id_calc=?", selectionArgs);
+		updateList();
 
 	}
 
-	public void onNothingSelected(AdapterView<?> arg0) {
-		// TODO Auto-generated method stub
-
-	}
 }

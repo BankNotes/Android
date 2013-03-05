@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.widget.TabHost;
 import calculator.ru.R;
 
+@SuppressWarnings("deprecation")
 public class CalculatorMainActivityTabs extends TabActivity {
 
 	final String TABS_TAG_1 = "Tag 1";
@@ -35,16 +36,16 @@ public class CalculatorMainActivityTabs extends TabActivity {
 		tabSpec.setContent(new Intent(this, LoanCalculatorMainForm.class));
 		tabHost.addTab(tabSpec);
 
-		tabSpec = tabHost.newTabSpec("tag2");
+		tabSpec = tabHost.newTabSpec(TABS_TAG_2);
 		tabSpec.setIndicator(getResources()
 				.getText(R.string.viewCalcs));
 		tabSpec.setContent(new Intent(this, ListOfCalcs.class));
 		tabHost.addTab(tabSpec);
 
-
+ 
 
 		try {
-			String dBasePath = "/data/data/calculator.ru/databases/calc.db";
+			String dBasePath = getString(R.string.db_path);
 			File f = new File(dBasePath);
 			if (f.exists()) {
 				f.delete();
