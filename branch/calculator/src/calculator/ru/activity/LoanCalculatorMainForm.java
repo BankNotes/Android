@@ -17,7 +17,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import calculator.ru.R;
 import calculator.ru.activity.comput.LoanComputer;
@@ -40,7 +39,8 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 	private EditText editTextInputSum;
 	private EditText editTextPercent;
 	private EditText editTextPeriod;
-	private static TextView textDatePayed;
+	private static EditText editDate;
+//	private static TextView textDatePayed;
 	private CharSequence[] loanTypes, calcTypes;
 
 	private int calcType = 0;
@@ -66,13 +66,16 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 		editTextInputSum.setHint(calcTypes[0]);
 		editTextPeriod = (EditText) findViewById(R.id.period);
 		editTextPercent = (EditText) findViewById(R.id.percent);
-		textDatePayed = (TextView) findViewById(R.id.dateField);
+//		textDatePayed = (TextView) findViewById(R.id.dateField);
+		editDate = (EditText) findViewById(R.id.dateField);
 
 		Calendar c = Calendar.getInstance();
 		year = c.get(Calendar.YEAR);
 		mth = c.get(Calendar.MONTH);
 		day = c.get(Calendar.DAY_OF_MONTH);
-		textDatePayed.setText(pad(day) + "." + pad(mth + 1) + "." + year);
+//		textDatePayed.setText(pad(day) + "." + pad(mth + 1) + "." + year);
+//		editDate.setText(pad(day) + "." + pad(mth + 1) + "." + year);
+		editDate.setText("");
 
 		r1 = (RadioButton) findViewById(R.id.anuitent);
 		r2 = (RadioButton) findViewById(R.id.different);
@@ -93,7 +96,8 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 	}
 
 	public void getDate(View v) {
-		if (v.getId() == R.id.dateButton) {
+		// if (v.getId() == R.id.dateButton) {
+		if (v.getId() == R.id.dateField) {
 			DialogFragment dFrag = new DatePickerFragment();
 			dFrag.show(getSupportFragmentManager(), "datePicker");
 		}
@@ -126,7 +130,8 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 			int period = Integer.parseInt(editTextPeriod.getText().toString());
 			double percent = Double.parseDouble(editTextPercent.getText()
 					.toString());
-			String beginDate = textDatePayed.getText().toString();
+//			String beginDate = textDatePayed.getText().toString();
+			String beginDate = editDate.getText().toString();
 			int payType = 0;
 
 			if (r2.isChecked()) {
@@ -197,8 +202,8 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 		}
 
 		private void updateDate() {
-			LoanCalculatorMainForm.textDatePayed.setText(pad(dd) + "."
-					+ pad(mth + 1) + "." + yy);
+//			LoanCalculatorMainForm.textDatePayed.setText(pad(dd) + "."+ pad(mth + 1) + "." + yy);
+			LoanCalculatorMainForm.editDate.setText(pad(dd) + "."+ pad(mth + 1) + "." + yy);
 		}
 
 	}
