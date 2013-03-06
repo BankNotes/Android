@@ -59,4 +59,6 @@
     <string name="redemtion_date">Дата погашения</string>
     <string name="credit_type_tv">Тип кредита</string>
     <string name="calc_type_tv">Тип расчета</string>
+    <string name="year">Лет</string>
+    <string name="month">Месяцев</string>
 </resources>

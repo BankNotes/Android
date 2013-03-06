@@ -1,7 +1,6 @@
 package calculator.ru.activity;
 
 import java.util.Calendar;
-
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -9,14 +8,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import calculator.ru.R;
 import calculator.ru.activity.comput.LoanComputer;
@@ -35,20 +39,35 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 
 	private RadioButton r1;
 	private RadioButton r2;
-
+	private LinearLayout spinerLayout;
 	private EditText editTextInputSum;
 	private EditText editTextPercent;
 	private EditText editTextPeriod;
-	private static EditText editDate;
-//	private static TextView textDatePayed;
+	private Button dateButton;
+	private static TextView textDatePayed;
+	private RadioButton yearRadButn;
+	private RadioButton mthRadButn;
+	private Button calculateButtn;
 	private CharSequence[] loanTypes, calcTypes;
 
 	private int calcType = 0;
+	private final int BY_SUM=0;
+	private final int BY_PAY=1;
+	private final int BY_PROFIT=2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.calc_form);
+
+		DisplayMetrics metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		int size = metrics.widthPixels / 18;
+
+		spinerLayout = (LinearLayout) findViewById(R.id.spiner_layout);
+
+		LayoutParams lParams = (LayoutParams) spinerLayout.getLayoutParams();
+		lParams.height = metrics.heightPixels / 11;
 
 		calcTypes = getResources().getStringArray(R.array.calcTypes);
 
@@ -64,23 +83,45 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 
 		editTextInputSum = (EditText) findViewById(R.id.inputSum);
 		editTextInputSum.setHint(calcTypes[0]);
+		editTextInputSum.setTextSize(size - 6);
+		int paddingLeftAndRight = 20;
+		editTextInputSum.setWidth(metrics.widthPixels - paddingLeftAndRight);
+
+		yearRadButn = (RadioButton) findViewById(R.id.year_rad_btn);
+		yearRadButn.setChecked(true);
+		yearRadButn.setTextSize(size - 6);
+
+		mthRadButn = (RadioButton) findViewById(R.id.month_rad_btn);
+		mthRadButn.setChecked(false);
+		mthRadButn.setTextSize(size - 6);
+
 		editTextPeriod = (EditText) findViewById(R.id.period);
+		editTextPeriod.setTextSize(size - 6);
+		editTextPeriod.setWidth(metrics.widthPixels - paddingLeftAndRight);
+
 		editTextPercent = (EditText) findViewById(R.id.percent);
-//		textDatePayed = (TextView) findViewById(R.id.dateField);
-		editDate = (EditText) findViewById(R.id.dateField);
+		editTextPercent.setTextSize(size - 6);
+		editTextPercent.setWidth(metrics.widthPixels - paddingLeftAndRight);
+
+		textDatePayed = (TextView) findViewById(R.id.dateField);
+
+		dateButton = (Button) findViewById(R.id.dateButton);
+		dateButton.setTextSize(size - 4);
 
 		Calendar c = Calendar.getInstance();
 		year = c.get(Calendar.YEAR);
 		mth = c.get(Calendar.MONTH);
 		day = c.get(Calendar.DAY_OF_MONTH);
-//		textDatePayed.setText(pad(day) + "." + pad(mth + 1) + "." + year);
-//		editDate.setText(pad(day) + "." + pad(mth + 1) + "." + year);
-		editDate.setText("");
+		textDatePayed.setText(pad(day) + "." + pad(mth + 1) + "." + year);
+		textDatePayed.setTextSize(size);
 
 		r1 = (RadioButton) findViewById(R.id.anuitent);
 		r2 = (RadioButton) findViewById(R.id.different);
 		r1.setChecked(true);
 		r2.setChecked(false);
+
+		calculateButtn = (Button) findViewById(R.id.calculateButton);
+		calculateButtn.setTextSize(size - 4);
 
 	}
 
@@ -96,8 +137,8 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 	}
 
 	public void getDate(View v) {
-		// if (v.getId() == R.id.dateButton) {
-		if (v.getId() == R.id.dateField) {
+		if (v.getId() == R.id.dateButton) {
+
 			DialogFragment dFrag = new DatePickerFragment();
 			dFrag.show(getSupportFragmentManager(), "datePicker");
 		}
@@ -128,10 +169,13 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 			double inputSum = Double.parseDouble(editTextInputSum.getText()
 					.toString());
 			int period = Integer.parseInt(editTextPeriod.getText().toString());
+			if (yearRadButn.isChecked()) {
+				period *= 12;
+			}
 			double percent = Double.parseDouble(editTextPercent.getText()
 					.toString());
-//			String beginDate = textDatePayed.getText().toString();
-			String beginDate = editDate.getText().toString();
+			String beginDate = textDatePayed.getText().toString();
+
 			int payType = 0;
 
 			if (r2.isChecked()) {
@@ -141,13 +185,13 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 					beginDate, payType, this.getContentResolver(), this);
 
 			switch (calcType) {
-			case 0:
+			case BY_SUM:
 				lCompute.calcBySumOfLoan();
 				break;
-			case 1:
+			case BY_PAY:
 				lCompute.calcByPayment();
 				break;
-			case 2:
+			case BY_PROFIT:
 				lCompute.calcByProfit();
 				break;
 			}
@@ -202,8 +246,8 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 		}
 
 		private void updateDate() {
-//			LoanCalculatorMainForm.textDatePayed.setText(pad(dd) + "."+ pad(mth + 1) + "." + yy);
-			LoanCalculatorMainForm.editDate.setText(pad(dd) + "."+ pad(mth + 1) + "." + yy);
+			LoanCalculatorMainForm.textDatePayed.setText(pad(dd) + "."
+					+ pad(mth + 1) + "." + yy);
 		}
 
 	}
