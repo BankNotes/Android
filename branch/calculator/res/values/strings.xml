@@ -62,5 +62,5 @@
     <string name="calc_type_tv">Computation type</string>
     <string name="year">Years</string>
     <string name="month">Months</string>
-    <string name="db_path">/data/data/calculator.ru/databases/calc.db</string>
+    <string name="db_path">/data/data/calculator.ru/databases/</string>
 </resources>

@@ -47,6 +47,8 @@ public class InputDataContentProvider extends ContentProvider {
 			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/period");
 	public static final Uri PAYTYPE_FIELD_CONTENT_URI = Uri.parse("content://"
 			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/paytype");
+	public static final Uri NAME_FIELD_CONTENT_URI = Uri.parse("content://"
+			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/name");
 
 	public static final String DEFAULT_SORT_ORDER = "id ASC";
 
@@ -59,6 +61,7 @@ public class InputDataContentProvider extends ContentProvider {
 	private static final int INPUT_DATA_BEGINDATE = 5;
 	private static final int INPUT_DATA_PERIOD = 6;
 	private static final int INPUT_DATA_PAYTYPE = 7;
+	private static final int INPUT_DATA_NAME = 8;
 
 	// Content values keys (using column names)
 	public static final String ID = "id";
@@ -67,6 +70,7 @@ public class InputDataContentProvider extends ContentProvider {
 	public static final String BEGINDATE = "beginDate";
 	public static final String PERIOD = "period";
 	public static final String PAYTYPE = "payType";
+	public static final String NAME = "name";
 
 	public boolean onCreate() {
 		dbHelper = new DbHelper(getContext(), true);
@@ -106,6 +110,10 @@ public class InputDataContentProvider extends ContentProvider {
 			qb.setTables(TABLE_NAME);
 			qb.appendWhere("paytype='" + url.getPathSegments().get(2) + "'");
 			break;
+		case INPUT_DATA_NAME:
+			qb.setTables(TABLE_NAME);
+			qb.appendWhere("name='" + url.getPathSegments().get(2) + "'");
+			break;
 
 		default:
 			throw new IllegalArgumentException("Unknown URL " + url);
@@ -137,6 +145,8 @@ public class InputDataContentProvider extends ContentProvider {
 		case INPUT_DATA_PERIOD:
 			return "vnd.android.cursor.item/vnd.calculator.dbase.input_data";
 		case INPUT_DATA_PAYTYPE:
+			return "vnd.android.cursor.item/vnd.calculator.dbase.input_data";
+		case INPUT_DATA_NAME:
 			return "vnd.android.cursor.item/vnd.calculator.dbase.input_data";
 
 		default:
@@ -221,6 +231,13 @@ public class InputDataContentProvider extends ContentProvider {
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
+		case INPUT_DATA_NAME:
+			segment = "'" + url.getPathSegments().get(2) + "'";
+			count = mDB.delete(TABLE_NAME,
+					"name="
+							+ segment
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ')' : ""), whereArgs);
 			break;
 
 		default:
@@ -286,6 +303,13 @@ public class InputDataContentProvider extends ContentProvider {
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
+		case INPUT_DATA_NAME:
+			segment = "'" + url.getPathSegments().get(2) + "'";
+			count = mDB.update(TABLE_NAME, values,
+					"name="
+							+ segment
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ')' : ""), whereArgs);
 			break;
 
 		default:
@@ -310,6 +334,8 @@ public class InputDataContentProvider extends ContentProvider {
 				+ "/*", INPUT_DATA_PERIOD);
 		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/paytype"
 				+ "/*", INPUT_DATA_PAYTYPE);
+		URL_MATCHER.addURI(AUTHORITY,
+				TABLE_NAME.toLowerCase() + "/name" + "/*", INPUT_DATA_NAME);
 
 		INPUT_DATA_PROJECTION_MAP = new HashMap<String, String>();
 		INPUT_DATA_PROJECTION_MAP.put(ID, "id");
@@ -318,6 +344,7 @@ public class InputDataContentProvider extends ContentProvider {
 		INPUT_DATA_PROJECTION_MAP.put(BEGINDATE, "begindate");
 		INPUT_DATA_PROJECTION_MAP.put(PERIOD, "period");
 		INPUT_DATA_PROJECTION_MAP.put(PAYTYPE, "paytype");
+		INPUT_DATA_PROJECTION_MAP.put(NAME, "name");
 
 	}
 }

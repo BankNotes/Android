@@ -25,19 +25,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-
 public class DbHelper extends SQLiteOpenHelper {
 
 	// Android's default system path for your application's database.
-//	private static String DB_PATH = "/data/data/calculator.ru/databases/";
+	// private static String DB_PATH = "/data/data/calculator.ru/databases/";
 	private static String DB_PATH;
 	private static String DB_NAME = "calc.db";
 
 	private final Context myContext;
 
-	
 	public DbHelper(Context context) {
-		
+
 		super(context, DB_NAME, null, 1);
 		this.myContext = context;
 		DB_PATH = context.getResources().getString(R.string.db_path);
@@ -73,7 +71,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// Leave this method empty
+		
 	}
 
 	/*
@@ -86,6 +84,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// fill in your code here
+	
 	}
 
 	/**
