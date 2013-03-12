@@ -5,7 +5,7 @@
     <string name="title_activity_main">Loan Calculator</string>
     <string name="sumCred">Ammount of credit</string>
     <string name="period">Period of payments</string>
-    <string name="percent">Interest rate</string>
+    <string name="percent">Interest rate %</string>
     <string name="dateButton">Date of the loan</string>
     <string name="anuitent">Annuity</string>
     <string name="different">Different payment</string>
@@ -63,4 +63,5 @@
     <string name="year">Years</string>
     <string name="month">Months</string>
     <string name="db_path">/data/data/calculator.ru/databases/</string>
+    <string name="name_calc">Name of calculation</string>
 </resources>

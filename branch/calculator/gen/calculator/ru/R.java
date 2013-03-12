@@ -24,32 +24,35 @@ public final class R {
         public static final int rect=0x7f020004;
     }
     public static final class id {
-        public static final int anuitent=0x7f080009;
-        public static final int begin_date=0x7f08000e;
-        public static final int calc_type=0x7f080011;
-        public static final int calculateButton=0x7f08000b;
-        public static final int chk_box=0x7f080012;
-        public static final int credit_type=0x7f080010;
-        public static final int dateButton=0x7f080007;
-        public static final int dateField=0x7f080008;
-        public static final int delete_item_button=0x7f080014;
-        public static final int different=0x7f08000a;
-        public static final int end_date=0x7f08000f;
-        public static final int inputSum=0x7f080002;
-        public static final int menu_settings=0x7f080019;
-        public static final int month_rad_btn=0x7f080004;
-        public static final int my_list=0x7f080015;
-        public static final int percent=0x7f080006;
-        public static final int period=0x7f080003;
-        public static final int refreshButton=0x7f080013;
-        public static final int result_grid=0x7f080018;
-        public static final int result_header=0x7f080017;
-        public static final int spiner_layout=0x7f080000;
-        public static final int spinner_calc_type=0x7f080001;
-        public static final int sum=0x7f08000d;
-        public static final int textResult=0x7f080016;
-        public static final int tvText=0x7f08000c;
-        public static final int year_rad_btn=0x7f080005;
+        public static final int anuitent=0x7f08000b;
+        public static final int begin_date=0x7f080011;
+        public static final int calc_type=0x7f080014;
+        public static final int calculateButton=0x7f08000d;
+        public static final int chk_box=0x7f080015;
+        public static final int credit_type=0x7f080013;
+        public static final int dateButton=0x7f080009;
+        public static final int dateField=0x7f08000a;
+        public static final int delete_item_button=0x7f080017;
+        public static final int different=0x7f08000c;
+        public static final int end_date=0x7f080012;
+        public static final int form_calc=0x7f080000;
+        public static final int inputSum=0x7f080004;
+        public static final int menu_settings=0x7f08001c;
+        public static final int month_rad_btn=0x7f080006;
+        public static final int my_list=0x7f080018;
+        public static final int name_Calc=0x7f08000f;
+        public static final int name_calc=0x7f080001;
+        public static final int percent=0x7f080008;
+        public static final int period=0x7f080005;
+        public static final int refreshButton=0x7f080016;
+        public static final int result_grid=0x7f08001b;
+        public static final int result_header=0x7f08001a;
+        public static final int spiner_layout=0x7f080002;
+        public static final int spinner_calc_type=0x7f080003;
+        public static final int sum=0x7f080010;
+        public static final int textResult=0x7f080019;
+        public static final int tvText=0x7f08000e;
+        public static final int year_rad_btn=0x7f080007;
     }
     public static final class layout {
         public static final int calc_form=0x7f030000;
@@ -89,6 +92,7 @@ public final class R {
         public static final int menu_settings=0x7f040001;
         public static final int mesCalculateOK=0x7f040015;
         public static final int month=0x7f040025;
+        public static final int name_calc=0x7f040027;
         public static final int percent=0x7f040005;
         public static final int period=0x7f040004;
         public static final int redemtion_date=0x7f040021;
@@ -106,5 +110,7 @@ public final class R {
     }
     public static final class style {
         public static final int AppTheme=0x7f060000;
+        public static final int ItemTextHeader=0x7f060001;
+        public static final int ItemTextStyle=0x7f060002;
     }
 }

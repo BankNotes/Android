@@ -37,23 +37,26 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 	private int mth;
 	private int day;
 
-	private RadioButton r1;
-	private RadioButton r2;
+	private LinearLayout formCalc;
+	private EditText editTextName;
 	private LinearLayout spinerLayout;
 	private EditText editTextInputSum;
 	private EditText editTextPercent;
 	private EditText editTextPeriod;
 	private Button dateButton;
+
 	private static TextView textDatePayed;
 	private RadioButton yearRadButn;
 	private RadioButton mthRadButn;
+	private RadioButton r1;
+	private RadioButton r2;
 	private Button calculateButtn;
 	private CharSequence[] loanTypes, calcTypes;
 
 	private int calcType = 0;
-	private final int BY_SUM=0;
-	private final int BY_PAY=1;
-	private final int BY_PROFIT=2;
+	private final int BY_SUM = 0;
+	private final int BY_PAY = 1;
+	private final int BY_PROFIT = 2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,13 +66,24 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int size = metrics.widthPixels / 18;
+		int paddingLeftAndRight = 20;
+
+		formCalc = (LinearLayout) findViewById(R.id.form_calc);
 
 		spinerLayout = (LinearLayout) findViewById(R.id.spiner_layout);
 
-		LayoutParams lParams = (LayoutParams) spinerLayout.getLayoutParams();
-		lParams.height = metrics.heightPixels / 11;
+		// LayoutParams lParams = (LayoutParams) spinerLayout.getLayoutParams();
+		// lParams.height = metrics.heightPixels / 11;
+		// lParams.width = metrics.widthPixels - paddingLeftAndRight;
 
+		LayoutParams lParams = (LayoutParams) formCalc.getLayoutParams();
+		lParams.width = metrics.widthPixels - paddingLeftAndRight;
+//		lParams.height = metrics.heightPixels+1000;
+		
 		calcTypes = getResources().getStringArray(R.array.calcTypes);
+
+		LayoutParams spinParams = (LayoutParams) spinerLayout.getLayoutParams();
+		spinParams.height = metrics.heightPixels / 11;
 
 		loanTypes = getResources().getTextArray(R.array.loanType);
 
@@ -81,11 +95,14 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 				.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
 		spin.setAdapter(arrAdapter);
 
+		editTextName = (EditText) findViewById(R.id.name_calc);
+		editTextName.setTextSize(size - 6);
+		// editTextName.setWidth(metrics.widthPixels - paddingLeftAndRight);
+
 		editTextInputSum = (EditText) findViewById(R.id.inputSum);
 		editTextInputSum.setHint(calcTypes[0]);
 		editTextInputSum.setTextSize(size - 6);
-		int paddingLeftAndRight = 20;
-		editTextInputSum.setWidth(metrics.widthPixels - paddingLeftAndRight);
+		// editTextInputSum.setWidth(metrics.widthPixels - paddingLeftAndRight);
 
 		yearRadButn = (RadioButton) findViewById(R.id.year_rad_btn);
 		yearRadButn.setChecked(true);
@@ -97,11 +114,11 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 
 		editTextPeriod = (EditText) findViewById(R.id.period);
 		editTextPeriod.setTextSize(size - 6);
-		editTextPeriod.setWidth(metrics.widthPixels - paddingLeftAndRight);
+		// editTextPeriod.setWidth(metrics.widthPixels - paddingLeftAndRight);
 
 		editTextPercent = (EditText) findViewById(R.id.percent);
 		editTextPercent.setTextSize(size - 6);
-		editTextPercent.setWidth(metrics.widthPixels - paddingLeftAndRight);
+		// editTextPercent.setWidth(metrics.widthPixels - paddingLeftAndRight);
 
 		textDatePayed = (TextView) findViewById(R.id.dateField);
 
@@ -181,8 +198,10 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 			if (r2.isChecked()) {
 				payType = 1;
 			}
+			String nameCalc = editTextName.getText().toString();
 			LoanComputer lCompute = new LoanComputer(inputSum, period, percent,
-					beginDate, payType, this.getContentResolver(), this);
+					beginDate, payType, this.getContentResolver(), this,
+					nameCalc);
 
 			switch (calcType) {
 			case BY_SUM:
@@ -195,7 +214,7 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 				lCompute.calcByProfit();
 				break;
 			}
-
+			editTextName.setText("");
 			editTextInputSum.setText("");
 			editTextPercent.setText("");
 			editTextPeriod.setText("");
