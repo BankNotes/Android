@@ -24,6 +24,7 @@ public class ListOfCalcs extends Activity {
 	final int PERIOD = 5;
 	final int CREDIT_TYPE = 6;
 	final int CALC_TYPE = 7;
+	final int NAME_CALC = 8;
 
 	private static final Uri LIST_URI = Uri
 			.parse("content://calculator.dbase.listofloancontentprovider/list_of_loan");
@@ -33,12 +34,12 @@ public class ListOfCalcs extends Activity {
 	private ContentResolver cResolver;
 	private String[] projection = { "id_calc", "sum_of_loan", "percent",
 			"begin_date", "end_date", "qty_payments", "credit_type",
-			"calc_type" };
+			"calc_type", "name_calc" };
 	private String selection = null;
 	private String[] selectionArgs = null;
 	private String sortOrder = "id_calc";
 
-	private ArrayList<ItemOfCalc> arrayList = new ArrayList<ItemOfCalc>();
+	private ArrayList<ItemOfCalc> arrayListOfCalcs = new ArrayList<ItemOfCalc>();
 	MyListAdapter myAdapter;
 	ListView lView;
 
@@ -46,7 +47,7 @@ public class ListOfCalcs extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_of_calcs);
 		this.cResolver = getContentResolver();
-		
+
 		updateList();
 
 		Button refreshButton = (Button) findViewById(R.id.refreshButton);
@@ -67,26 +68,28 @@ public class ListOfCalcs extends Activity {
 	}
 
 	private void updateList() {
+		arrayListOfCalcs.clear();
 		Cursor cursor = cResolver.query(LIST_URI, projection, selection,
 				selectionArgs, sortOrder);
 		if (cursor != null) {
 			cursor.moveToFirst();
-			arrayList.clear();
+			
 			while (cursor.moveToNext()) {
-				arrayList.add(new ItemOfCalc(cursor.getInt(ID), cursor
+				arrayListOfCalcs.add(new ItemOfCalc(cursor.getInt(ID), cursor
 						.getInt(PERIOD), cursor.getDouble(SUM_OF_LOAN), cursor
 						.getDouble(PERCENT), cursor.getString(BEGIN_DATE),
 						cursor.getString(END_DATE), cursor
 								.getString(CREDIT_TYPE), cursor
-								.getString(CALC_TYPE), false));
+								.getString(CALC_TYPE), cursor
+								.getString(NAME_CALC), false));
 			}
 		}
 		cursor.close();
-		myAdapter = new MyListAdapter(this, arrayList);
+		myAdapter = new MyListAdapter(this, arrayListOfCalcs);
 
 		lView = (ListView) findViewById(R.id.my_list);
 		lView.setAdapter(myAdapter);
-		
+
 	}
 
 	private void deleteItem() {

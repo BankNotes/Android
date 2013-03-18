@@ -62,4 +62,6 @@
     <string name="year">Лет</string>
     <string name="month">Месяцев</string>
     <string name="name_calc">Название расчета</string>
+    <string name="errMesNameCalc">Название расчета пусто!</string>
+    <string name="period_list">Период кредитования,\nмесяцев</string>
 </resources>

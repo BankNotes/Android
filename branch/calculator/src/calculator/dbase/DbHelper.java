@@ -28,7 +28,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHelper extends SQLiteOpenHelper {
 
 	// Android's default system path for your application's database.
-	// private static String DB_PATH = "/data/data/calculator.ru/databases/";
 	private static String DB_PATH;
 	private static String DB_NAME = "calc.db";
 

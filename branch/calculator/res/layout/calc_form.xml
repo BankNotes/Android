@@ -12,12 +12,11 @@
         android:orientation="vertical" >
 
         <EditText
-            android:id="@+id/name_calc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:id="@+id/name_calc_edit_txt"
+            style="@style/calcFormEditText"
             android:layout_marginTop="5dp"
-            android:hint="@string/name_calc" />
+            android:hint="@string/name_calc"
+            android:singleLine="true" />
 
         <LinearLayout
             android:id="@+id/spiner_layout"
@@ -37,9 +36,7 @@
 
         <EditText
             android:id="@+id/inputSum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            style="@style/calcFormEditText"
             android:layout_marginTop="5dp"
             android:inputType="numberDecimal"
             android:maxLength="10" />
@@ -52,9 +49,7 @@
 
             <EditText
                 android:id="@+id/period"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                style="@style/calcFormEditText"
                 android:hint="@string/period"
                 android:inputType="number"
                 android:maxLength="3" />
@@ -81,9 +76,7 @@
 
         <EditText
             android:id="@+id/percent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            style="@style/calcFormEditText"
             android:layout_marginTop="10dp"
             android:hint="@string/percent"
             android:inputType="numberDecimal"

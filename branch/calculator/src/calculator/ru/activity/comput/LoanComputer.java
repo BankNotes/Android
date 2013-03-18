@@ -14,7 +14,7 @@ public class LoanComputer extends Activity {
 			.parse("content://calculator.dbase.inputdatacontentprovider/input_data");
 
 	private double inputSum, percent;
-	private String beginDate, nameCalculation;
+	private String beginDate;
 	private int payType, idCalc=0, period;
 	private ContentResolver resolver;
 	private Context context;
@@ -29,8 +29,6 @@ public class LoanComputer extends Activity {
 		this.payType = payType;
 		this.resolver = resolver;
 		this.context = context;
-		this.nameCalculation = nameCalculation;
-
 		ContentValues values = new ContentValues();
 
 		values.put("inputSum", inputSum);

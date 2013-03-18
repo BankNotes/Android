@@ -4,12 +4,12 @@ public class ItemOfCalc {
 
 	int id, period;
 	double sum, percent;
-	String beginDate, endDate, creditType, calcType;
+	String beginDate, endDate, creditType, calcType, nameCalc;
 	boolean checked;
 
 	public ItemOfCalc(int id, int period, double sum, double percent,
 			String beginDate, String endDate, String creditType,
-			String calcType, boolean checked) {
+			String calcType, String nameCalc, boolean checked) {
 		this.id = id;
 		this.period = period;
 		this.sum = sum;
@@ -19,6 +19,7 @@ public class ItemOfCalc {
 		this.creditType = creditType;
 		this.calcType = calcType;
 		this.checked = checked;
+		this.nameCalc = nameCalc;
 	}
 
 	public int getId() {
@@ -51,12 +52,10 @@ public class ItemOfCalc {
 	}
 
 	public String getCreditType() {
-		// TODO Auto-generated method stub
 		return this.creditType;
 	}
 
 	public String getCalcType() {
-		// TODO Auto-generated method stub
 		return this.calcType;
 	}
 
@@ -66,5 +65,9 @@ public class ItemOfCalc {
 
 	public void setChecked(boolean check) {
 		this.checked = check;
+	}
+
+	public String getNameCalc() {
+		return this.nameCalc;
 	}
 }

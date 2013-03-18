@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import calculator.dbase.InputDataContentProvider;
 import calculator.ru.R;
 
 public class Payments extends Activity {
@@ -21,6 +22,7 @@ public class Payments extends Activity {
 	private String endDate;
 	private String paymentType;
 	private String calcType;
+	private String nameCalc; 
 	
 	private static final Uri IDATA_URI = Uri
 			.parse("content://calculator.dbase.inputdatacontentprovider/input_data");
@@ -42,7 +44,7 @@ public class Payments extends Activity {
 	private Context context;
 	
 	public Payments(double ammountIncom, double percent, int period,
-			String beginDate, int payType, ContentResolver cr, Context context) {
+			String beginDate, int payType, ContentResolver cResolver, Context context) {
 		this.beginDate = beginDate;
 		this.percent=percent;
 		this.maxSumPayment = 0.4 * ammountIncom;
@@ -53,26 +55,34 @@ public class Payments extends Activity {
 		this.sh = new Sheduler(sumOfLoan, percent, period, beginDate, 0, payType);
 		this.period = period;
 		this.paymentsTimeTable = sh.getPaymentsS();
-		this.cResolver = cr;
+		this.cResolver = cResolver;
 		this.context = context;
-//		this.payType=payType;
 		this.paymentType = getPaymentType(payType);
 		this.calcType=this.loanTypes[2]; // by profit
 
-		ContentValues inputValues = new ContentValues();
-
-		inputValues.put("inputSum", sumOfLoan);
-		inputValues.put("percent", percent);
-		inputValues.put("period", period);
-		inputValues.put("payType", payType);
-		inputValues.put("beginDate", beginDate);
-
-		cr.insert(IDATA_URI, inputValues);
-
-		Cursor c = cr.query(IDATA_URI, null, null, null, null);
+		
+		Cursor c = cResolver.query(IDATA_URI, null, null, null, null);
 		c.moveToLast();
 		idCalc = c.getInt(0);
+		nameCalc = c.getString(6);
 		c.close();
+		
+		ContentValues inputValues = new ContentValues();
+
+
+		inputValues.put(InputDataContentProvider.INPUTSUM, sumOfLoan);
+		inputValues.put(InputDataContentProvider.PERCENT, percent);
+		inputValues.put(InputDataContentProvider.PERIOD, period);
+		inputValues.put(InputDataContentProvider.PAYTYPE, payType);
+		inputValues.put(InputDataContentProvider.BEGINDATE, beginDate);
+		inputValues.put(InputDataContentProvider.NAME, nameCalc);
+		
+		
+		
+		String[] whereArgs = {idCalc+""};
+		
+		cResolver.update(IDATA_URI, inputValues, "id=?", whereArgs);
+
 
 	}
 
@@ -93,6 +103,11 @@ public class Payments extends Activity {
 		this.paymentType = getPaymentType(payType);
 		this.loanTypes = context.getResources().getStringArray(R.array.calcTypes);
 		this.calcType= loanTypes[0]; // by sum of loan
+		
+		Cursor c = cResolver.query(IDATA_URI, null, null, null, null);
+		c.moveToLast();
+		nameCalc = c.getString(6);
+		c.close();
 		
 	}
 
@@ -115,6 +130,10 @@ public class Payments extends Activity {
 //		this.payType=payType;
 		this.paymentType = getPaymentType(payType);
 		this.calcType=this.loanTypes[1];  // by pay sum
+		Cursor c = cResolver.query(IDATA_URI, null, null, null, null);
+		c.moveToLast();
+		nameCalc = c.getString(6);
+		c.close();
 	}
 
 	public void calculate() {
@@ -125,6 +144,7 @@ public class Payments extends Activity {
 		String payPercent;
 		String payFee;
 		String remain;
+		
 		for (int i = 0; i < period; i++) {
 			payId = i + 1;
 			payDate = paymentsTimeTable[i][PAY_DATE];
@@ -168,6 +188,7 @@ public class Payments extends Activity {
 		listValues.put("qty_payments", this.period);
 		listValues.put("credit_type", this.paymentType);
 		listValues.put("calc_type", this.calcType);
+		listValues.put("name_calc", this.nameCalc);
 		
 		cResolver.insert(LIST_URI, listValues);
 		listValues.clear();

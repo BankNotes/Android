@@ -41,7 +41,7 @@ public final class R {
         public static final int month_rad_btn=0x7f080006;
         public static final int my_list=0x7f080018;
         public static final int name_Calc=0x7f08000f;
-        public static final int name_calc=0x7f080001;
+        public static final int name_calc_edit_txt=0x7f080001;
         public static final int percent=0x7f080008;
         public static final int period=0x7f080005;
         public static final int refreshButton=0x7f080016;
@@ -81,6 +81,7 @@ public final class R {
         public static final int delete_button=0x7f04001f;
         public static final int different=0x7f040008;
         public static final int errMesDateAmmount=0x7f040013;
+        public static final int errMesNameCalc=0x7f040028;
         public static final int errMesNumPays=0x7f040011;
         public static final int errMesPercent=0x7f040012;
         public static final int errMesSum=0x7f04001c;
@@ -95,6 +96,7 @@ public final class R {
         public static final int name_calc=0x7f040027;
         public static final int percent=0x7f040005;
         public static final int period=0x7f040004;
+        public static final int period_list=0x7f040029;
         public static final int redemtion_date=0x7f040021;
         public static final int refreshButton=0x7f04001e;
         public static final int sumCred=0x7f040003;
@@ -112,5 +114,7 @@ public final class R {
         public static final int AppTheme=0x7f060000;
         public static final int ItemTextHeader=0x7f060001;
         public static final int ItemTextStyle=0x7f060002;
+        public static final int calcFormEditText=0x7f060004;
+        public static final int tvTextStyle=0x7f060003;
     }
 }

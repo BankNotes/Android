@@ -69,17 +69,16 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 		int paddingLeftAndRight = 20;
 
 		formCalc = (LinearLayout) findViewById(R.id.form_calc);
-
+		
+		editTextName = (EditText) findViewById(R.id.name_calc_edit_txt);
+		editTextName.setTextSize(size - 6);
+		
+		
 		spinerLayout = (LinearLayout) findViewById(R.id.spiner_layout);
-
-		// LayoutParams lParams = (LayoutParams) spinerLayout.getLayoutParams();
-		// lParams.height = metrics.heightPixels / 11;
-		// lParams.width = metrics.widthPixels - paddingLeftAndRight;
 
 		LayoutParams lParams = (LayoutParams) formCalc.getLayoutParams();
 		lParams.width = metrics.widthPixels - paddingLeftAndRight;
-//		lParams.height = metrics.heightPixels+1000;
-		
+
 		calcTypes = getResources().getStringArray(R.array.calcTypes);
 
 		LayoutParams spinParams = (LayoutParams) spinerLayout.getLayoutParams();
@@ -95,14 +94,11 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 				.setDropDownViewResource(android.R.layout.simple_expandable_list_item_1);
 		spin.setAdapter(arrAdapter);
 
-		editTextName = (EditText) findViewById(R.id.name_calc);
-		editTextName.setTextSize(size - 6);
-		// editTextName.setWidth(metrics.widthPixels - paddingLeftAndRight);
+		
 
 		editTextInputSum = (EditText) findViewById(R.id.inputSum);
 		editTextInputSum.setHint(calcTypes[0]);
 		editTextInputSum.setTextSize(size - 6);
-		// editTextInputSum.setWidth(metrics.widthPixels - paddingLeftAndRight);
 
 		yearRadButn = (RadioButton) findViewById(R.id.year_rad_btn);
 		yearRadButn.setChecked(true);
@@ -114,11 +110,9 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 
 		editTextPeriod = (EditText) findViewById(R.id.period);
 		editTextPeriod.setTextSize(size - 6);
-		// editTextPeriod.setWidth(metrics.widthPixels - paddingLeftAndRight);
 
 		editTextPercent = (EditText) findViewById(R.id.percent);
 		editTextPercent.setTextSize(size - 6);
-		// editTextPercent.setWidth(metrics.widthPixels - paddingLeftAndRight);
 
 		textDatePayed = (TextView) findViewById(R.id.dateField);
 
@@ -164,6 +158,10 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 
 	public void calculate(View v) {
 		if (v.getId() == R.id.calculateButton) {
+			if (editTextName.getText().toString().equals(null)) {
+				showMessage(getResources().getText(R.string.errMesNameCalc)
+						.toString(), editTextName.getText().toString());
+			}
 
 			if (editTextInputSum.getText().toString().equals("")) {
 				showMessage(getResources().getText(R.string.errMesSum)

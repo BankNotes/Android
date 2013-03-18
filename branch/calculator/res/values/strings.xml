@@ -64,4 +64,6 @@
     <string name="month">Months</string>
     <string name="db_path">/data/data/calculator.ru/databases/</string>
     <string name="name_calc">Name of calculation</string>
+    <string name="errMesNameCalc">Name of computation is empty!</string>
+    <string name="period_list">Period of payments, months</string>
 </resources>
