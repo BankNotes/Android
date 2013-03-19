@@ -55,6 +55,9 @@ public class ListOfLoanContentProvider extends ContentProvider {
 	public static final Uri CALC_TYPE_FIELD_CONTENT_URI = Uri
 			.parse("content://" + AUTHORITY + "/" + TABLE_NAME.toLowerCase()
 					+ "/calc_type");
+	public static final Uri NAME_CALC_FIELD_CONTENT_URI = Uri
+			.parse("content://" + AUTHORITY + "/" + TABLE_NAME.toLowerCase()
+					+ "/name_calc");
 
 	public static final String DEFAULT_SORT_ORDER = "id_calc ASC";
 
@@ -69,6 +72,7 @@ public class ListOfLoanContentProvider extends ContentProvider {
 	private static final int LIST_OF_LOAN_QTY_PAYMENTS = 7;
 	private static final int LIST_OF_LOAN_CREDIT_TYPE = 8;
 	private static final int LIST_OF_LOAN_CALC_TYPE = 9;
+	private static final int LIST_OF_LOAN_NAME_CALC = 10;
 
 	// Content values keys (using column names)
 	public static final String ID_CALC = "id_calc";
@@ -79,6 +83,7 @@ public class ListOfLoanContentProvider extends ContentProvider {
 	public static final String QTY_PAYMENTS = "qty_payments";
 	public static final String CREDIT_TYPE = "credit_type";
 	public static final String CALC_TYPE = "calc_type";
+	public static final String NAME_CALC = "name_calc";
 
 	public boolean onCreate() {
 		dbHelper = new DbHelper(getContext(), true);
@@ -127,6 +132,10 @@ public class ListOfLoanContentProvider extends ContentProvider {
 			qb.setTables(TABLE_NAME);
 			qb.appendWhere("calc_type='" + url.getPathSegments().get(2) + "'");
 			break;
+		case LIST_OF_LOAN_NAME_CALC:
+			qb.setTables(TABLE_NAME);
+			qb.appendWhere("name_calc='" + url.getPathSegments().get(2) + "'");
+			break;
 
 		default:
 			throw new IllegalArgumentException("Unknown URL " + url);
@@ -162,6 +171,8 @@ public class ListOfLoanContentProvider extends ContentProvider {
 		case LIST_OF_LOAN_CREDIT_TYPE:
 			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
 		case LIST_OF_LOAN_CALC_TYPE:
+			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
+		case LIST_OF_LOAN_NAME_CALC:
 			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
 
 		default:
@@ -263,6 +274,14 @@ public class ListOfLoanContentProvider extends ContentProvider {
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
+		case LIST_OF_LOAN_NAME_CALC:
+			segment = "'" + url.getPathSegments().get(2) + "'";
+			count = mDB.delete(TABLE_NAME,
+					"name_calc="
+							+ segment
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ')' : ""), whereArgs);
+			break;
 
 		default:
 			throw new IllegalArgumentException("Unknown URL " + url);
@@ -343,6 +362,13 @@ public class ListOfLoanContentProvider extends ContentProvider {
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
+		case LIST_OF_LOAN_NAME_CALC:
+			segment = "'" + url.getPathSegments().get(2) + "'";
+			count = mDB.update(TABLE_NAME, values,
+					"name_calc="
+							+ segment
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ')' : ""), whereArgs);
 			break;
 
 		default:
@@ -371,6 +397,8 @@ public class ListOfLoanContentProvider extends ContentProvider {
 				+ "/*", LIST_OF_LOAN_CREDIT_TYPE);
 		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/calc_type"
 				+ "/*", LIST_OF_LOAN_CALC_TYPE);
+		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/name_calc"
+				+ "/*", LIST_OF_LOAN_CALC_TYPE);
 
 		LIST_OF_LOAN_PROJECTION_MAP = new HashMap<String, String>();
 		LIST_OF_LOAN_PROJECTION_MAP.put(ID_CALC, "id_calc");
@@ -381,6 +409,7 @@ public class ListOfLoanContentProvider extends ContentProvider {
 		LIST_OF_LOAN_PROJECTION_MAP.put(QTY_PAYMENTS, "qty_payments");
 		LIST_OF_LOAN_PROJECTION_MAP.put(CREDIT_TYPE, "credit_type");
 		LIST_OF_LOAN_PROJECTION_MAP.put(CALC_TYPE, "calc_type");
+		LIST_OF_LOAN_PROJECTION_MAP.put(NAME_CALC, "name_calc");
 
 	}
 }

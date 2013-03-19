@@ -18,55 +18,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import calculator.ru.R;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * <p>
- * This class copies a SQLite database from your application's assets directory
- * to /data/data/<your_application_package>/databases/ so you can access it
- * using the SQLite APIs provided by the Android SDK. Note that
- * {@link DbHelper#copyDatabaseFile()} checks for the existence of the database
- * and only copies it if needed.
- * </p>
- * <p>
- * {@link DbHelper#copyDatabaseFile()} calls
- * {@link SQLiteOpenHelper#getReadableDatabase()}, which in turn calls
- * {@link SQLiteOpenHelper#onCreate(SQLiteDatabase)}. Be aware that the
- * implementation of the overridden
- * {@link SQLiteOpenHelper#onCreate(SQLiteDatabase)} must remain empty in order
- * for the copy operation to work correctly.
- * </p>
- * <p>
- * This class includes a constructor {@link DbHelper#DbHelper(Context, boolean)}
- * which allows you to control whether the database file should be copied when
- * the class is instantiated.
- * </p>
- * 
- * @see SQLiteOpenHelper
- */
 public class DbHelper extends SQLiteOpenHelper {
 
 	// Android's default system path for your application's database.
-	private static String DB_PATH = "/data/data/calculator.ru/databases/";
-
+	private static String DB_PATH;
 	private static String DB_NAME = "calc.db";
 
 	private final Context myContext;
 
-	/**
-	 * Constructor Keeps a reference to the passed context in order to access
-	 * the application's assets.
-	 * 
-	 * @param context
-	 *            Context to be used
-	 */
 	public DbHelper(Context context) {
 
 		super(context, DB_NAME, null, 1);
 		this.myContext = context;
+		DB_PATH = context.getResources().getString(R.string.db_path);
 	}
 
 	/**
@@ -83,6 +54,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public DbHelper(Context context, boolean copyDatabase) {
 		// call overloaded constructor
 		this(context);
+		DB_PATH = context.getResources().getString(R.string.db_path);
 		// copy database file in case desired
 		if (copyDatabase) {
 			copyDatabaseFile();
@@ -98,7 +70,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// Leave this method empty
+		
 	}
 
 	/*
@@ -111,6 +83,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		// fill in your code here
+	
 	}
 
 	/**

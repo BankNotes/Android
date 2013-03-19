@@ -45,7 +45,7 @@ public class CalculatorMainActivityTabs extends TabActivity {
  
 
 		try {
-			String dBasePath = getString(R.string.db_path);
+			String dBasePath = getString(R.string.db_path)+"calc.db";
 			File f = new File(dBasePath);
 			if (f.exists()) {
 				f.delete();

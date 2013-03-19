@@ -57,23 +57,31 @@ public class MyListAdapter extends BaseAdapter {
 			view = lInflater.inflate(R.layout.item_of_list, parent, false);
 		}
 
-		ItemOfCalc i = getItemOfCalc(position);
+		ItemOfCalc myItem = getItemOfCalc(position);
 
+		((TextView)view.findViewById(R.id.name_Calc)).setText(myItem.getNameCalc());
+		
 		((TextView) view.findViewById(R.id.sum)).setText(MoneyConvertor
-				.convertToMoneyFormat(i.getDoubleSum()));
-		((TextView) view.findViewById(R.id.percent)).setText(i.getPercent());
-		((TextView) view.findViewById(R.id.begin_date)).setText(i
+				.convertToMoneyFormat(myItem.getDoubleSum()));
+		
+		((TextView) view.findViewById(R.id.percent)).setText(myItem.getPercent());
+		
+		((TextView) view.findViewById(R.id.begin_date)).setText(myItem
 				.getBeginDate());
-		((TextView) view.findViewById(R.id.end_date)).setText(i.getEndDate());
-		((TextView) view.findViewById(R.id.period)).setText(i.getPeriod());
-		((TextView) view.findViewById(R.id.credit_type)).setText(i
+		
+		((TextView) view.findViewById(R.id.end_date)).setText(myItem.getEndDate());
+		
+		((TextView) view.findViewById(R.id.period)).setText(myItem.getPeriod());
+		
+		((TextView) view.findViewById(R.id.credit_type)).setText(myItem
 				.getCreditType());
-		((TextView) view.findViewById(R.id.calc_type)).setText(i.getCalcType());
+		
+		((TextView) view.findViewById(R.id.calc_type)).setText(myItem.getCalcType());
 
 		CheckBox chBox = (CheckBox) view.findViewById(R.id.chk_box);
 		chBox.setOnCheckedChangeListener(checkListener);
 		chBox.setTag(position);
-		chBox.setChecked(i.isChecked());
+		chBox.setChecked(myItem.isChecked());
 
 		return view;
 	}

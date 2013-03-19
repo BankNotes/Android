@@ -5,7 +5,7 @@
     <string name="title_activity_main">Кредитный калькулятор</string>
     <string name="sumCred">Сумма кредита</string>
     <string name="period">Период кредитования</string>
-    <string name="percent">Ставка</string>
+    <string name="percent">Ставка %</string>
     <string name="dateButton">Дата выдачи</string>
     <string name="anuitent">Аннуитент</string>
     <string name="different">Дифф. платеж</string>
@@ -59,4 +59,9 @@
     <string name="redemtion_date">Дата погашения</string>
     <string name="credit_type_tv">Тип кредита</string>
     <string name="calc_type_tv">Тип расчета</string>
+    <string name="year">Лет</string>
+    <string name="month">Месяцев</string>
+    <string name="name_calc">Название расчета</string>
+    <string name="errMesNameCalc">Название расчета пусто!</string>
+    <string name="period_list">Период кредитования,\nмесяцев</string>
 </resources>

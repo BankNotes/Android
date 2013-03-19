@@ -1,80 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-
-    <Spinner
-        android:id="@+id/spinner_calc_type"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-
-    <EditText
-        android:id="@+id/inputSum"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:maxLength="10" />
-
-    <EditText
-        android:id="@+id/period"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/period"
-        android:inputType="number"
-        android:maxLength="3" />
-
-    <EditText
-        android:id="@+id/percent"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/percent"
-        android:inputType="numberDecimal"
-        android:maxLength="5" />
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_vertical" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:id="@+id/form_calc"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <EditText
+            android:id="@+id/name_calc_edit_txt"
+            style="@style/calcFormEditText"
+            android:layout_marginTop="5dp"
+            android:hint="@string/name_calc"
+            android:singleLine="true" />
+
+        <LinearLayout
+            android:id="@+id/spiner_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:gravity="center" >
+
+            <Spinner
+                android:id="@+id/spinner_calc_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/inputSum"
+            style="@style/calcFormEditText"
+            android:layout_marginTop="5dp"
+            android:inputType="numberDecimal"
+            android:maxLength="10" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/period"
+                style="@style/calcFormEditText"
+                android:hint="@string/period"
+                android:inputType="number"
+                android:maxLength="3" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/month_rad_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/month" />
+
+                <RadioButton
+                    android:id="@+id/year_rad_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="@string/year" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/percent"
+            style="@style/calcFormEditText"
+            android:layout_marginTop="10dp"
+            android:hint="@string/percent"
+            android:inputType="numberDecimal"
+            android:maxLength="5" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/dateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:onClick="getDate"
+                android:text="@string/dateButton" />
+
+            <TextView
+                android:id="@+id/dateField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:textIsSelectable="false" />
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:id="@+id/anuitent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/anuitent" />
+
+            <RadioButton
+                android:id="@+id/different"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/different" />
+        </RadioGroup>
 
         <Button
-            android:id="@+id/dateButton"
-            android:layout_width="wrap_content"
+            android:id="@+id/calculateButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="getDate"
-            android:text="@string/dateButton" />
-
-        <TextView
-            android:id="@+id/dateField"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            
-            android:textStyle="bold" />
+            android:layout_marginTop="5dp"
+            android:onClick="calculate"
+            android:text="@string/calculate" />
     </LinearLayout>
 
-    <RadioGroup
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <RadioButton
-            android:id="@+id/anuitent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/anuitent" />
-
-        <RadioButton
-            android:id="@+id/different"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/different" />
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/calculateButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:onClick="calculate"
-        android:text="@string/calculate" />
-
-</LinearLayout>
+</ScrollView>

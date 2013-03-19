@@ -5,7 +5,7 @@
     <string name="title_activity_main">Loan Calculator</string>
     <string name="sumCred">Ammount of credit</string>
     <string name="period">Period of payments</string>
-    <string name="percent">Interest rate</string>
+    <string name="percent">Interest rate %</string>
     <string name="dateButton">Date of the loan</string>
     <string name="anuitent">Annuity</string>
     <string name="different">Different payment</string>
@@ -60,5 +60,10 @@
     <string name="redemtion_date">Redemption Date</string>
     <string name="credit_type_tv">Loan type</string>
     <string name="calc_type_tv">Computation type</string>
-    <string name="db_path">/data/data/calculator.ru/databases/calc.db</string>
+    <string name="year">Years</string>
+    <string name="month">Months</string>
+    <string name="db_path">/data/data/calculator.ru/databases/</string>
+    <string name="name_calc">Name of calculation</string>
+    <string name="errMesNameCalc">Name of computation is empty!</string>
+    <string name="period_list">Period of payments, months</string>
 </resources>
