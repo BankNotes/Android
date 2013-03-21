@@ -107,7 +107,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		// only proceed in case the database does not exist
 		if (!checkDataBaseExistence()) {
 			// get the database
-			database = this.getReadableDatabase();
+//			database = this.getReadableDatabase();
+			database = this.getWritableDatabase();
 			try {
 				// Open your local db as the input stream
 				myInput = myContext.getAssets().open(DB_NAME);

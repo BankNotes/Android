@@ -83,7 +83,8 @@ public class PaymentsContentProvider extends ContentProvider {
 
 	public Cursor query(Uri url, String[] projection, String selection,
 			String[] selectionArgs, String sort) {
-		SQLiteDatabase mDB = dbHelper.getReadableDatabase();
+//		SQLiteDatabase mDB = dbHelper.getReadableDatabase();
+		SQLiteDatabase mDB = dbHelper.getWritableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		switch (URL_MATCHER.match(url)) {
 		case PAYMENTS:
@@ -135,6 +136,7 @@ public class PaymentsContentProvider extends ContentProvider {
 		Cursor c = qb.query(mDB, projection, selection, selectionArgs, null,
 				null, orderBy);
 		c.setNotificationUri(getContext().getContentResolver(), url);
+		
 		return c;
 	}
 
@@ -183,6 +185,7 @@ public class PaymentsContentProvider extends ContentProvider {
 			getContext().getContentResolver().notifyChange(uri, null);
 			return uri;
 		}
+		
 		throw new SQLException("Failed to insert row into " + url);
 	}
 
@@ -263,6 +266,7 @@ public class PaymentsContentProvider extends ContentProvider {
 			throw new IllegalArgumentException("Unknown URL " + url);
 		}
 		getContext().getContentResolver().notifyChange(url, null);
+		
 		return count;
 	}
 
@@ -344,6 +348,7 @@ public class PaymentsContentProvider extends ContentProvider {
 			throw new IllegalArgumentException("Unknown URL " + url);
 		}
 		getContext().getContentResolver().notifyChange(url, null);
+		
 		return count;
 	}
 

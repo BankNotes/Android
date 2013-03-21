@@ -72,7 +72,8 @@ public class TotalsContentProvider extends ContentProvider {
 
 	public Cursor query(Uri url, String[] projection, String selection,
 			String[] selectionArgs, String sort) {
-		SQLiteDatabase mDB = dbHelper.getReadableDatabase();
+//		SQLiteDatabase mDB = dbHelper.getReadableDatabase();
+		SQLiteDatabase mDB = dbHelper.getWritableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		switch (URL_MATCHER.match(url)) {
 		case TOTALS:
@@ -113,6 +114,7 @@ public class TotalsContentProvider extends ContentProvider {
 		Cursor c = qb.query(mDB, projection, selection, selectionArgs, null,
 				null, orderBy);
 		c.setNotificationUri(getContext().getContentResolver(), url);
+		
 		return c;
 	}
 
@@ -155,6 +157,7 @@ public class TotalsContentProvider extends ContentProvider {
 			getContext().getContentResolver().notifyChange(uri, null);
 			return uri;
 		}
+		
 		throw new SQLException("Failed to insert row into " + url);
 	}
 
@@ -211,6 +214,7 @@ public class TotalsContentProvider extends ContentProvider {
 			throw new IllegalArgumentException("Unknown URL " + url);
 		}
 		getContext().getContentResolver().notifyChange(url, null);
+		
 		return count;
 	}
 
@@ -268,6 +272,7 @@ public class TotalsContentProvider extends ContentProvider {
 			throw new IllegalArgumentException("Unknown URL " + url);
 		}
 		getContext().getContentResolver().notifyChange(url, null);
+		
 		return count;
 	}
 
