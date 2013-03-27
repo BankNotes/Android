@@ -1,12 +1,12 @@
-package calculator.ru.payments;
+package usless.calculator.ru.payments;
 
+import usless.calculator.dbase.content.provider.InputDataContentProvider;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import calculator.dbase.InputDataContentProvider;
 import calculator.ru.R;
 
 public class Payments extends Activity {

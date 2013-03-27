@@ -1,4 +1,4 @@
-package calculator.ru.payments;
+package usless.calculator.ru.payments;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,25 +17,22 @@ public class Sheduler {
 	// private Date endDate; //
 	private double paymentAnnu; // ammount payment annuitet
 	private double comisPayment; // comiss pay
-	private int payType; // 0 - annuitet, 1 - differential
+	private int isAnnuitet; // 0 - annuitet, 1 - differential
 	private double[][] payments; // array of payments
 
-	private final int ANNUITY = 0;
-	
-	
 	private final int PAYMENT = 0;
 	private final int PAY_PERCENT = 1;
 	private final int PAY_FEE = 2;
 	private final int REMAIN = 3;
 
 	public Sheduler(double sumCred, double percent, int period,
-			String beginDate, double comisPayment, int payType) {
+			String beginDate, double comisPayment, int isAnnuitet) {
 		comisPayment = 0; // is not work
 		this.sumCred = sumCred;
 		this.percent = percent;
 		this.period = period;
 		this.beginDate = beginDate;
-		this.payType = payType;
+		this.isAnnuitet = isAnnuitet;
 		this.comisPayment = comisPayment;
 
 	}
@@ -71,27 +68,7 @@ public class Sheduler {
 		return paymentsS;
 	}
 
-	private String[] getDateOfPay(String startDate, int numMonths) {
-		String[] d = new String[numMonths];
-		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-
-		Date dt = null;
-		try {
-			dt = sdf.parse(startDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		Calendar c1 = Calendar.getInstance();
-
-		c1.setTime(dt);
-
-		for (int i = 0; i < period; i++) {
-			c1.add(Calendar.MONTH, 1);
-			d[i] = sdf.format(c1.getTime());
-		}
-		return d;
-	}
+	
 
 	public double getMaxSumCredit(double paySum) {
 		return paySum
@@ -99,20 +76,7 @@ public class Sheduler {
 				/ (Math.pow((1 + percent / 1200), period) - 1);
 	}
 
-	private double getPaymentAnu() {
-		if (payType == 0) {
-
-			double k = (percent / 1200 * Math.pow((1 + percent / 1200), period))
-					/ (Math.pow((1 + percent / 1200), period) - 1);
-			paymentAnnu = k * sumCred;
-		}
-		return paymentAnnu;
-
-	}
-
-	private double getIncrementPercent(double creditRemain, double percent) {
-		return creditRemain * percent / 1200;
-	}
+	
 
 	public double getPayout() {
 		double res = 0;
@@ -137,10 +101,47 @@ public class Sheduler {
 		}
 		return res;
 	}
+	
+	private String[] getDateOfPay(String startDate, int numMonths) {
+		String[] d = new String[numMonths];
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
+		Date dt = null;
+		try {
+			dt = sdf.parse(startDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		Calendar c1 = Calendar.getInstance();
+
+		c1.setTime(dt);
+
+		for (int i = 0; i < period; i++) {
+			c1.add(Calendar.MONTH, 1);
+			d[i] = sdf.format(c1.getTime());
+		}
+		return d;
+	}
+	
+	private double getPaymentAnu() {
+		if (isAnnuitet==1) {
+
+			double k = (percent / 1200 * Math.pow((1 + percent / 1200), period))
+					/ (Math.pow((1 + percent / 1200), period) - 1);
+			paymentAnnu = k * sumCred;
+		}
+		return paymentAnnu;
+
+	}
+
+	private double getIncrementPercent(double creditRemain, double percent) {
+		return creditRemain * percent / 1200;
+	}
 
 	private void createShedulePayments(double creditSum, int period,
 			double percent) {
-		if (payType == ANNUITY) 
+		if (isAnnuitet==0) 
 		{
 			double shedulePayment = getPaymentAnu();
 

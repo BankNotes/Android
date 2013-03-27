@@ -1,4 +1,4 @@
-package calculator.ru.activity;
+package calculator.ru.activity.allcomputs;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import calculator.ru.R;
-import calculator.ru.activity.item.ItemOfCalc;
 
 public class ListOfCalcs extends Activity {
 

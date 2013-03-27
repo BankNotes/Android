@@ -1,8 +1,5 @@
-package calculator.ru.activity;
+package calculator.ru.activity.tabs;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,13 +9,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
 import calculator.ru.R;
+import calculator.ru.activity.allcomputs.ListOfCalcs;
+import calculator.ru.activity.mainform.LoanCalculatorMainForm;
 
 @SuppressWarnings("deprecation")
 public class CalculatorMainActivityTabs extends TabActivity {
 
 	final String TABS_TAG_1 = "Tag 1";
 	final String TABS_TAG_2 = "Tag 2";
-	
+//	private DataSource dSource;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class CalculatorMainActivityTabs extends TabActivity {
 		tabHost.addTab(tabSpec);
 
  
-
+/*
 		try {
 			String dBasePath = getString(R.string.db_path)+"calc.db";
 			File f = new File(dBasePath);
@@ -59,6 +58,11 @@ public class CalculatorMainActivityTabs extends TabActivity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		*/
+		
+//		dSource = new DataSource(this);
+		
+		
 	}
 
 

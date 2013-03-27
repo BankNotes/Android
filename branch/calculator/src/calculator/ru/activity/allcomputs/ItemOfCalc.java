@@ -1,4 +1,4 @@
-package calculator.ru.activity.item;
+package calculator.ru.activity.allcomputs;
 
 public class ItemOfCalc {
 

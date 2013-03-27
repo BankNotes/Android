@@ -1,4 +1,4 @@
-package calculator.ru.activity;
+package calculator.ru.activity.allcomputs;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,6 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 import calculator.ru.R;
-import calculator.ru.activity.item.ItemOfCalc;
 import calculator.ru.activity.service.MoneyConvertor;
 
 public class MyListAdapter extends BaseAdapter {

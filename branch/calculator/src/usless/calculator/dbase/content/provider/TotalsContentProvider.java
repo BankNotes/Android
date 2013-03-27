@@ -10,9 +10,11 @@
  * in your installation folder.                                               *
  ******************************************************************************
  */
-package calculator.dbase;
+package usless.calculator.dbase.content.provider;
 
 import java.util.HashMap;
+
+import calculator.dbase.DbHelper;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;

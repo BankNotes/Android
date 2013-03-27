@@ -1,12 +1,12 @@
-package calculator.ru.activity.comput;
+package usless.calculator.ru.activity.comput;
 
+import usless.calculator.ru.payments.Payments;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import calculator.ru.payments.Payments;
 
 public class LoanComputer extends Activity {
 

@@ -10,9 +10,11 @@
  * in your installation folder.                                               *
  ******************************************************************************
  */
-package calculator.dbase;
+package usless.calculator.dbase.content.provider;
 
 import java.util.HashMap;
+
+import calculator.dbase.DbHelper;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -25,56 +27,65 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-public class PaymentsContentProvider extends ContentProvider {
+public class ListOfLoanContentProvider extends ContentProvider {
 
 	private DbHelper dbHelper;
-	private static HashMap<String, String> PAYMENTS_PROJECTION_MAP;
-	private static final String TABLE_NAME = "payments";
-	private static final String AUTHORITY = "calculator.dbase.paymentscontentprovider";
+	private static HashMap<String, String> LIST_OF_LOAN_PROJECTION_MAP;
+	private static final String TABLE_NAME = "list_of_loan";
+	private static final String AUTHORITY = "calculator.dbase.listofloancontentprovider";
 
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + TABLE_NAME);
-	public static final Uri ID_FIELD_CONTENT_URI = Uri.parse("content://"
-			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/id");
 	public static final Uri ID_CALC_FIELD_CONTENT_URI = Uri.parse("content://"
 			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/id_calc");
-	public static final Uri PAY_ID_FIELD_CONTENT_URI = Uri.parse("content://"
-			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/pay_id");
-	public static final Uri PAY_FIELD_CONTENT_URI = Uri.parse("content://"
-			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/pay");
-	public static final Uri PAY_PERCENT_FIELD_CONTENT_URI = Uri
+	public static final Uri SUM_OF_LOAN_FIELD_CONTENT_URI = Uri
 			.parse("content://" + AUTHORITY + "/" + TABLE_NAME.toLowerCase()
-					+ "/pay_percent");
-	public static final Uri PAY_FEE_FIELD_CONTENT_URI = Uri.parse("content://"
-			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/pay_fee");
-	public static final Uri PAY_DATE_FIELD_CONTENT_URI = Uri.parse("content://"
-			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/pay_date");
-	public static final Uri REMAIN_FIELD_CONTENT_URI = Uri.parse("content://"
-			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/remain");
+					+ "/sum_of_loan");
+	public static final Uri PERCENT_FIELD_CONTENT_URI = Uri.parse("content://"
+			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/percent");
+	public static final Uri BEGIN_DATE_FIELD_CONTENT_URI = Uri
+			.parse("content://" + AUTHORITY + "/" + TABLE_NAME.toLowerCase()
+					+ "/begin_date");
+	public static final Uri END_DATE_FIELD_CONTENT_URI = Uri.parse("content://"
+			+ AUTHORITY + "/" + TABLE_NAME.toLowerCase() + "/end_date");
+	public static final Uri QTY_PAYMENTS_FIELD_CONTENT_URI = Uri
+			.parse("content://" + AUTHORITY + "/" + TABLE_NAME.toLowerCase()
+					+ "/qty_payments");
+	public static final Uri CREDIT_TYPE_FIELD_CONTENT_URI = Uri
+			.parse("content://" + AUTHORITY + "/" + TABLE_NAME.toLowerCase()
+					+ "/credit_type");
+	public static final Uri CALC_TYPE_FIELD_CONTENT_URI = Uri
+			.parse("content://" + AUTHORITY + "/" + TABLE_NAME.toLowerCase()
+					+ "/calc_type");
+	public static final Uri NAME_CALC_FIELD_CONTENT_URI = Uri
+			.parse("content://" + AUTHORITY + "/" + TABLE_NAME.toLowerCase()
+					+ "/name_calc");
 
-	public static final String DEFAULT_SORT_ORDER = "id ASC";
+	public static final String DEFAULT_SORT_ORDER = "id_calc ASC";
 
 	private static final UriMatcher URL_MATCHER;
 
-	private static final int PAYMENTS = 1;
-	private static final int PAYMENTS_ID = 2;
-	private static final int PAYMENTS_ID_CALC = 3;
-	private static final int PAYMENTS_PAY_ID = 4;
-	private static final int PAYMENTS_PAY = 5;
-	private static final int PAYMENTS_PAY_PERCENT = 6;
-	private static final int PAYMENTS_PAY_FEE = 7;
-	private static final int PAYMENTS_PAY_DATE = 8;
-	private static final int PAYMENTS_REMAIN = 9;
+	private static final int LIST_OF_LOAN = 1;
+	private static final int LIST_OF_LOAN_ID_CALC = 2;
+	private static final int LIST_OF_LOAN_SUM_OF_LOAN = 3;
+	private static final int LIST_OF_LOAN_PERCENT = 4;
+	private static final int LIST_OF_LOAN_BEGIN_DATE = 5;
+	private static final int LIST_OF_LOAN_END_DATE = 6;
+	private static final int LIST_OF_LOAN_QTY_PAYMENTS = 7;
+	private static final int LIST_OF_LOAN_CREDIT_TYPE = 8;
+	private static final int LIST_OF_LOAN_CALC_TYPE = 9;
+	private static final int LIST_OF_LOAN_NAME_CALC = 10;
 
 	// Content values keys (using column names)
-	public static final String ID = "id";
 	public static final String ID_CALC = "id_calc";
-	public static final String PAY_ID = "pay_id";
-	public static final String PAY = "pay";
-	public static final String PAY_PERCENT = "pay_percent";
-	public static final String PAY_FEE = "pay_fee";
-	public static final String PAY_DATE = "pay_date";
-	public static final String REMAIN = "remain";
+	public static final String SUM_OF_LOAN = "sum_of_loan";
+	public static final String PERCENT = "percent";
+	public static final String BEGIN_DATE = "begin_date";
+	public static final String END_DATE = "end_date";
+	public static final String QTY_PAYMENTS = "qty_payments";
+	public static final String CREDIT_TYPE = "credit_type";
+	public static final String CALC_TYPE = "calc_type";
+	public static final String NAME_CALC = "name_calc";
 
 	public boolean onCreate() {
 		dbHelper = new DbHelper(getContext(), true);
@@ -87,41 +98,46 @@ public class PaymentsContentProvider extends ContentProvider {
 		SQLiteDatabase mDB = dbHelper.getWritableDatabase();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		switch (URL_MATCHER.match(url)) {
-		case PAYMENTS:
+		case LIST_OF_LOAN:
 			qb.setTables(TABLE_NAME);
-			qb.setProjectionMap(PAYMENTS_PROJECTION_MAP);
+			qb.setProjectionMap(LIST_OF_LOAN_PROJECTION_MAP);
 			break;
-		case PAYMENTS_ID:
-			qb.setTables(TABLE_NAME);
-			qb.appendWhere("id='" + url.getPathSegments().get(2) + "'");
-			break;
-		case PAYMENTS_ID_CALC:
+		case LIST_OF_LOAN_ID_CALC:
 			qb.setTables(TABLE_NAME);
 			qb.appendWhere("id_calc='" + url.getPathSegments().get(2) + "'");
 			break;
-		case PAYMENTS_PAY_ID:
+		case LIST_OF_LOAN_SUM_OF_LOAN:
 			qb.setTables(TABLE_NAME);
-			qb.appendWhere("pay_id='" + url.getPathSegments().get(2) + "'");
+			qb.appendWhere("sum_of_loan='" + url.getPathSegments().get(2) + "'");
 			break;
-		case PAYMENTS_PAY:
+		case LIST_OF_LOAN_PERCENT:
 			qb.setTables(TABLE_NAME);
-			qb.appendWhere("pay='" + url.getPathSegments().get(2) + "'");
+			qb.appendWhere("percent='" + url.getPathSegments().get(2) + "'");
 			break;
-		case PAYMENTS_PAY_PERCENT:
+		case LIST_OF_LOAN_BEGIN_DATE:
 			qb.setTables(TABLE_NAME);
-			qb.appendWhere("pay_percent='" + url.getPathSegments().get(2) + "'");
+			qb.appendWhere("begin_date='" + url.getPathSegments().get(2) + "'");
 			break;
-		case PAYMENTS_PAY_FEE:
+		case LIST_OF_LOAN_END_DATE:
 			qb.setTables(TABLE_NAME);
-			qb.appendWhere("pay_fee='" + url.getPathSegments().get(2) + "'");
+			qb.appendWhere("end_date='" + url.getPathSegments().get(2) + "'");
 			break;
-		case PAYMENTS_PAY_DATE:
+		case LIST_OF_LOAN_QTY_PAYMENTS:
 			qb.setTables(TABLE_NAME);
-			qb.appendWhere("pay_date='" + url.getPathSegments().get(2) + "'");
+			qb.appendWhere("qty_payments='" + url.getPathSegments().get(2)
+					+ "'");
 			break;
-		case PAYMENTS_REMAIN:
+		case LIST_OF_LOAN_CREDIT_TYPE:
 			qb.setTables(TABLE_NAME);
-			qb.appendWhere("remain='" + url.getPathSegments().get(2) + "'");
+			qb.appendWhere("credit_type='" + url.getPathSegments().get(2) + "'");
+			break;
+		case LIST_OF_LOAN_CALC_TYPE:
+			qb.setTables(TABLE_NAME);
+			qb.appendWhere("calc_type='" + url.getPathSegments().get(2) + "'");
+			break;
+		case LIST_OF_LOAN_NAME_CALC:
+			qb.setTables(TABLE_NAME);
+			qb.appendWhere("name_calc='" + url.getPathSegments().get(2) + "'");
 			break;
 
 		default:
@@ -136,30 +152,32 @@ public class PaymentsContentProvider extends ContentProvider {
 		Cursor c = qb.query(mDB, projection, selection, selectionArgs, null,
 				null, orderBy);
 		c.setNotificationUri(getContext().getContentResolver(), url);
-		
+
 		return c;
 	}
 
 	public String getType(Uri url) {
 		switch (URL_MATCHER.match(url)) {
-		case PAYMENTS:
-			return "vnd.android.cursor.dir/vnd.calculator.dbase.payments";
-		case PAYMENTS_ID:
-			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
-		case PAYMENTS_ID_CALC:
-			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
-		case PAYMENTS_PAY_ID:
-			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
-		case PAYMENTS_PAY:
-			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
-		case PAYMENTS_PAY_PERCENT:
-			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
-		case PAYMENTS_PAY_FEE:
-			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
-		case PAYMENTS_PAY_DATE:
-			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
-		case PAYMENTS_REMAIN:
-			return "vnd.android.cursor.item/vnd.calculator.dbase.payments";
+		case LIST_OF_LOAN:
+			return "vnd.android.cursor.dir/vnd.calculator.dbase.list_of_loan";
+		case LIST_OF_LOAN_ID_CALC:
+			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
+		case LIST_OF_LOAN_SUM_OF_LOAN:
+			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
+		case LIST_OF_LOAN_PERCENT:
+			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
+		case LIST_OF_LOAN_BEGIN_DATE:
+			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
+		case LIST_OF_LOAN_END_DATE:
+			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
+		case LIST_OF_LOAN_QTY_PAYMENTS:
+			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
+		case LIST_OF_LOAN_CREDIT_TYPE:
+			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
+		case LIST_OF_LOAN_CALC_TYPE:
+			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
+		case LIST_OF_LOAN_NAME_CALC:
+			return "vnd.android.cursor.item/vnd.calculator.dbase.list_of_loan";
 
 		default:
 			throw new IllegalArgumentException("Unknown URL " + url);
@@ -175,17 +193,17 @@ public class PaymentsContentProvider extends ContentProvider {
 		} else {
 			values = new ContentValues();
 		}
-		if (URL_MATCHER.match(url) != PAYMENTS) {
+		if (URL_MATCHER.match(url) != LIST_OF_LOAN) {
 			throw new IllegalArgumentException("Unknown URL " + url);
 		}
 
-		rowID = mDB.insert("payments", "payments", values);
+		rowID = mDB.insert("list_of_loan", "list_of_loan", values);
 		if (rowID > 0) {
 			Uri uri = ContentUris.withAppendedId(CONTENT_URI, rowID);
 			getContext().getContentResolver().notifyChange(uri, null);
 			return uri;
 		}
-		
+
 		throw new SQLException("Failed to insert row into " + url);
 	}
 
@@ -194,18 +212,10 @@ public class PaymentsContentProvider extends ContentProvider {
 		int count;
 		String segment = "";
 		switch (URL_MATCHER.match(url)) {
-		case PAYMENTS:
+		case LIST_OF_LOAN:
 			count = mDB.delete(TABLE_NAME, where, whereArgs);
 			break;
-		case PAYMENTS_ID:
-			segment = "'" + url.getPathSegments().get(2) + "'";
-			count = mDB.delete(TABLE_NAME,
-					"id="
-							+ segment
-							+ (!TextUtils.isEmpty(where) ? " AND (" + where
-									+ ')' : ""), whereArgs);
-			break;
-		case PAYMENTS_ID_CALC:
+		case LIST_OF_LOAN_ID_CALC:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.delete(TABLE_NAME,
 					"id_calc="
@@ -213,50 +223,66 @@ public class PaymentsContentProvider extends ContentProvider {
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_PAY_ID:
+		case LIST_OF_LOAN_SUM_OF_LOAN:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.delete(TABLE_NAME,
-					"pay_id="
+					"sum_of_loan="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_PAY:
+		case LIST_OF_LOAN_PERCENT:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.delete(TABLE_NAME,
-					"pay="
+					"percent="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_PAY_PERCENT:
+		case LIST_OF_LOAN_BEGIN_DATE:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.delete(TABLE_NAME,
-					"pay_percent="
+					"begin_date="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_PAY_FEE:
+		case LIST_OF_LOAN_END_DATE:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.delete(TABLE_NAME,
-					"pay_fee="
+					"end_date="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_PAY_DATE:
+		case LIST_OF_LOAN_QTY_PAYMENTS:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.delete(TABLE_NAME,
-					"pay_date="
+					"qty_payments="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_REMAIN:
+		case LIST_OF_LOAN_CREDIT_TYPE:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.delete(TABLE_NAME,
-					"remain="
+					"credit_type="
+							+ segment
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ')' : ""), whereArgs);
+			break;
+		case LIST_OF_LOAN_CALC_TYPE:
+			segment = "'" + url.getPathSegments().get(2) + "'";
+			count = mDB.delete(TABLE_NAME,
+					"calc_type="
+							+ segment
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ')' : ""), whereArgs);
+			break;
+		case LIST_OF_LOAN_NAME_CALC:
+			segment = "'" + url.getPathSegments().get(2) + "'";
+			count = mDB.delete(TABLE_NAME,
+					"name_calc="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
@@ -266,7 +292,7 @@ public class PaymentsContentProvider extends ContentProvider {
 			throw new IllegalArgumentException("Unknown URL " + url);
 		}
 		getContext().getContentResolver().notifyChange(url, null);
-		
+
 		return count;
 	}
 
@@ -276,18 +302,10 @@ public class PaymentsContentProvider extends ContentProvider {
 		int count;
 		String segment = "";
 		switch (URL_MATCHER.match(url)) {
-		case PAYMENTS:
+		case LIST_OF_LOAN:
 			count = mDB.update(TABLE_NAME, values, where, whereArgs);
 			break;
-		case PAYMENTS_ID:
-			segment = "'" + url.getPathSegments().get(2) + "'";
-			count = mDB.update(TABLE_NAME, values,
-					"id="
-							+ segment
-							+ (!TextUtils.isEmpty(where) ? " AND (" + where
-									+ ')' : ""), whereArgs);
-			break;
-		case PAYMENTS_ID_CALC:
+		case LIST_OF_LOAN_ID_CALC:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.update(TABLE_NAME, values,
 					"id_calc="
@@ -295,50 +313,65 @@ public class PaymentsContentProvider extends ContentProvider {
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_PAY_ID:
+		case LIST_OF_LOAN_SUM_OF_LOAN:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.update(TABLE_NAME, values,
-					"pay_id="
+					"sum_of_loan="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_PAY:
+		case LIST_OF_LOAN_PERCENT:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.update(TABLE_NAME, values,
-					"pay="
+					"percent="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_PAY_PERCENT:
+		case LIST_OF_LOAN_BEGIN_DATE:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.update(TABLE_NAME, values,
-					"pay_percent="
+					"begin_date="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_PAY_FEE:
+		case LIST_OF_LOAN_END_DATE:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.update(TABLE_NAME, values,
-					"pay_fee="
+					"end_date="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_PAY_DATE:
+		case LIST_OF_LOAN_QTY_PAYMENTS:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.update(TABLE_NAME, values,
-					"pay_date="
+					"qty_payments="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
 			break;
-		case PAYMENTS_REMAIN:
+		case LIST_OF_LOAN_CREDIT_TYPE:
 			segment = "'" + url.getPathSegments().get(2) + "'";
 			count = mDB.update(TABLE_NAME, values,
-					"remain="
+					"credit_type="
+							+ segment
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ')' : ""), whereArgs);
+			break;
+		case LIST_OF_LOAN_CALC_TYPE:
+			segment = "'" + url.getPathSegments().get(2) + "'";
+			count = mDB.update(TABLE_NAME, values,
+					"calc_type="
+							+ segment
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ')' : ""), whereArgs);
+		case LIST_OF_LOAN_NAME_CALC:
+			segment = "'" + url.getPathSegments().get(2) + "'";
+			count = mDB.update(TABLE_NAME, values,
+					"name_calc="
 							+ segment
 							+ (!TextUtils.isEmpty(where) ? " AND (" + where
 									+ ')' : ""), whereArgs);
@@ -354,33 +387,36 @@ public class PaymentsContentProvider extends ContentProvider {
 
 	static {
 		URL_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase(), PAYMENTS);
-		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/id" + "/*",
-				PAYMENTS_ID);
+		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase(), LIST_OF_LOAN);
 		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/id_calc"
-				+ "/*", PAYMENTS_ID_CALC);
-		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/pay_id"
-				+ "/*", PAYMENTS_PAY_ID);
-		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/pay" + "/*",
-				PAYMENTS_PAY);
-		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/pay_percent"
-				+ "/*", PAYMENTS_PAY_PERCENT);
-		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/pay_fee"
-				+ "/*", PAYMENTS_PAY_FEE);
-		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/pay_date"
-				+ "/*", PAYMENTS_PAY_DATE);
-		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/remain"
-				+ "/*", PAYMENTS_REMAIN);
+				+ "/*", LIST_OF_LOAN_ID_CALC);
+		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/sum_of_loan"
+				+ "/*", LIST_OF_LOAN_SUM_OF_LOAN);
+		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/percent"
+				+ "/*", LIST_OF_LOAN_PERCENT);
+		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/begin_date"
+				+ "/*", LIST_OF_LOAN_BEGIN_DATE);
+		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/end_date"
+				+ "/*", LIST_OF_LOAN_END_DATE);
+		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase()
+				+ "/qty_payments" + "/*", LIST_OF_LOAN_QTY_PAYMENTS);
+		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/credit_type"
+				+ "/*", LIST_OF_LOAN_CREDIT_TYPE);
+		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/calc_type"
+				+ "/*", LIST_OF_LOAN_CALC_TYPE);
+		URL_MATCHER.addURI(AUTHORITY, TABLE_NAME.toLowerCase() + "/name_calc"
+				+ "/*", LIST_OF_LOAN_CALC_TYPE);
 
-		PAYMENTS_PROJECTION_MAP = new HashMap<String, String>();
-		PAYMENTS_PROJECTION_MAP.put(ID, "id");
-		PAYMENTS_PROJECTION_MAP.put(ID_CALC, "id_calc");
-		PAYMENTS_PROJECTION_MAP.put(PAY_ID, "pay_id");
-		PAYMENTS_PROJECTION_MAP.put(PAY, "pay");
-		PAYMENTS_PROJECTION_MAP.put(PAY_PERCENT, "pay_percent");
-		PAYMENTS_PROJECTION_MAP.put(PAY_FEE, "pay_fee");
-		PAYMENTS_PROJECTION_MAP.put(PAY_DATE, "pay_date");
-		PAYMENTS_PROJECTION_MAP.put(REMAIN, "remain");
+		LIST_OF_LOAN_PROJECTION_MAP = new HashMap<String, String>();
+		LIST_OF_LOAN_PROJECTION_MAP.put(ID_CALC, "id_calc");
+		LIST_OF_LOAN_PROJECTION_MAP.put(SUM_OF_LOAN, "sum_of_loan");
+		LIST_OF_LOAN_PROJECTION_MAP.put(PERCENT, "percent");
+		LIST_OF_LOAN_PROJECTION_MAP.put(BEGIN_DATE, "begin_date");
+		LIST_OF_LOAN_PROJECTION_MAP.put(END_DATE, "end_date");
+		LIST_OF_LOAN_PROJECTION_MAP.put(QTY_PAYMENTS, "qty_payments");
+		LIST_OF_LOAN_PROJECTION_MAP.put(CREDIT_TYPE, "credit_type");
+		LIST_OF_LOAN_PROJECTION_MAP.put(CALC_TYPE, "calc_type");
+		LIST_OF_LOAN_PROJECTION_MAP.put(NAME_CALC, "name_calc");
 
 	}
 }
