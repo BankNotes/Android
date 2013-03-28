@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="app_name">Кредитный Калькулятор</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="title_activity_main">Кредитный калькулятор</string>
+    <string name="sumCred">Сумма кредита</string>
+    <string name="period">Период кредитования</string>
+    <string name="percent">Ставка %</string>
+    <string name="dateButton">Дата выдачи</string>
+    <string name="anuitent">Аннуитент</string>
+    <string name="different">Дифф. платеж</string>
+    <string name="calculate">Расчитать</string>
+    <string name="title_activity_result">Результат</string>
+    <string name="sumPay">Сумма платежа</string>
+    <string name="sumProfit">Сумма дохода</string>
+    <string name="bySumOfLoan">По сумме кредита</string>
+    <string name="byAmmountOfPayment">По сумме платежа</string>
+    <string name="byAmmountIncome">По сумме дохода</string>
+    <string name="errMesSumCred">Не введена сумма кредита!</string>
+    <string name="errMesNumPays">Не введен период кредитования!</string>
+    <string name="errMesPercent">Не введена ставка по кредиту!</string>
+    <string name="errMesDateAmmount">Не введена дата выдачи кредита!</string>
+    <string name="errMesSumPay">Не введена сумма платежа!</string>
+    <string-array name="headerResult">
+        <item>№ платежа</item>
+        <item>Дата платежа</item>
+        <item>Платеж</item>
+        <item>Проценты</item>
+        <item>Долг</item>
+        <item>Остаток</item>
+    </string-array>
+    <string name="mesCalculateOK">Готово!</string>
+    <string name="total">Итого:</string>
+    <string name="errMesSumIncom">Не введена сумма дохода!</string>
+    <string name="toCalculate">Калькулятор</string>
+    <string name="viewCalcs">Список графиков</string>
+    <string name="makeCalc">Сделать расчет</string>
+    <string-array name="loanType">
+        <item>По сумме кредита</item>
+        <item>По сумме платежа</item>
+        <item>По сумме дохода</item>
+    </string-array>
+    <string-array name="calcTypes">
+        <item>Сумма кредита</item>
+        <item>Сумма платежа</item>
+        <item>Сумма дохода</item>
+    </string-array>
+    <string name="errMesSum">Не введена сумма!</string>
+    <string-array name="header_list_of_calcs">
+        <item>Сумма</item>
+        <item>% ставка</item>
+        <item>Дата выдачи</item>
+        <item>К-во плат-й</item>
+        <item>Кредит</item>
+    </string-array>
+    <string name="list_of_calcs_tv">Список графиков</string>
+    <string name="refreshButton">Обновить</string>
+    <string name="delete_button">Удалить</string>
+    <string name="date_of_issue">Дата выдачи</string>
+    <string name="redemtion_date">Дата погашения</string>
+    <string name="credit_type_tv">Тип кредита</string>
+    <string name="calc_type_tv">Тип расчета</string>
+    <string name="year">Лет</string>
+    <string name="month">Месяцев</string>
+    <string name="name_calc">Название расчета</string>
+    <string name="errMesNameCalc">Название расчета пусто!</string>
+    <string name="period_list">Период кредитования,\nмесяцев</string>
+    <string name="payment_type">Тип платежа</string>
+</resources>
