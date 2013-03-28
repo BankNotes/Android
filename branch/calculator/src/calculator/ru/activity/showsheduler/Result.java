@@ -36,7 +36,6 @@ public class Result extends Activity {
 	// public static final String REMAIN = "remain";
 	DataSource dSource;
 
-	GridView resultGrid;
 
 	ArrayAdapter<String> adapter;
 
@@ -56,6 +55,32 @@ public class Result extends Activity {
 
 		dSource.open();
 
+		TextView textHead = (TextView) findViewById(R.id.textResult);
+		InputData iData = dSource.getLastInputData();
+
+		// textHead.setText(getResources().getString(R.string.sumCred) + ": "
+		// + MoneyConvertor.convertToMoneyFormat(payoutFee) + "\n"
+		// + getResources().getString(R.string.percent) + ": "
+		// + NumberFormat.getInstance(Locale.getDefault()).format(percent)
+		// + "%");
+		textHead.setText(getResources().getString(R.string.name_calc)
+				+ ": "
+				+ iData.getName()
+				+ "\n"
+				+ getResources().getString(R.string.sumCred)
+				+ ": "
+				+ MoneyConvertor.convertToMoneyFormat(iData.getSum())
+				+ "\n"
+				+ getResources().getString(R.string.percent)
+				+ ": "
+				+ NumberFormat.getInstance(Locale.getDefault()).format(
+						iData.getPercent()) + "\n"
+						+ getResources().getString(R.string.period)+": "
+						+ iData.getPeriod() + " "+getResources().getString(R.string.month)+"\n"
+				+ getResources().getString(R.string.date_of_issue) + ": "
+				+ iData.getBeginDate());
+
+		
 		// String[] projectionInputData = { "id", "period", "percent", "payType"
 		// };
 		// Cursor inputData = getContentResolver().query(IDATA_URI,
@@ -68,7 +93,7 @@ public class Result extends Activity {
 		// period = inputData.getInt(1);
 		// percent = inputData.getDouble(2);
 		// inputData.close();
-
+/*
 		CharSequence[] header = getResources().getTextArray(
 				R.array.headerResult);
 		List<String> headerList = new ArrayList<String>();
@@ -84,9 +109,36 @@ public class Result extends Activity {
 		headGrid.setHorizontalSpacing(2);
 		headGrid.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
 		headGrid.setClickable(false);
-
+*/
 		List<String> resList = new ArrayList<String>();
 
+		// test data
+		ArrayList<RowOfSheduller> table = dSource.getShedullerTable();
+		for (RowOfSheduller row : table) {
+			resList.add(row.getPayDate());
+			resList.add(MoneyConvertor.convertToMoneyFormat(row.getPayment()));
+			resList.add(MoneyConvertor.convertToMoneyFormat(row.getPayPercent()));
+			resList.add(MoneyConvertor.convertToMoneyFormat(row.getPayFee()));
+			resList.add(MoneyConvertor.convertToMoneyFormat(row.getRemain()));
+		}
+		
+//		resList.add("1");
+//		resList.add("2");
+//		resList.add("3");
+//		resList.add("4");
+//		resList.add("5");
+		
+	
+		GridView resultGrid = (GridView) findViewById(R.id.result_header);
+		resultGrid.setAdapter(new ArrayAdapter<String>(this, R.layout.item,
+				R.id.tvText, resList));
+		resultGrid.setNumColumns(5);
+		resultGrid.setVerticalSpacing(2);
+		resultGrid.setHorizontalSpacing(2);
+		resultGrid.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+		resultGrid.setClickable(false);
+	}
+	
 		// String[] projection = { PAY_ID, PAY_DATE, PAY, PAY_PERCENT, PAY_FEE,
 		// REMAIN };
 		//
@@ -109,7 +161,7 @@ public class Result extends Activity {
 		//
 		// } while (payments.moveToNext());
 		// payments.close();
-
+/*
 		ArrayList<RowOfSheduller> table = dSource.getShedullerTable();
 		for (RowOfSheduller row : table) {
 			resList.add(row.getPayDate());
@@ -119,6 +171,7 @@ public class Result extends Activity {
 			resList.add(MoneyConvertor.convertToMoneyFormat(row.getRemain()));
 		}
 
+		
 		// String[] projectionTotal = { "sumPays", "sumPercentPays", "sumPayFee"
 		// };
 		// String selectionTotal = "id_calc=?";
@@ -150,41 +203,27 @@ public class Result extends Activity {
 
 		resList.add(" ");
 
+		resList.clear();
+		resList.add("first column");
+		resList.add("second column");
+		resList.add("third column");
+		resList.add("forth column");
+		resList.add("fith column");
+		
 		GridView resGrid = (GridView) findViewById(R.id.result_grid);
 
-		resGrid.setAdapter(new ArrayAdapter<String>(this, R.layout.item,
-				R.id.tvText, resList));
+//		resGrid.setAdapter(new ArrayAdapter<String>(this, R.layout.item,
+//				R.id.tvText, resList));
+//		resGrid.setAdapter(new ArrayAdapter<String>(this, R.layout.item,
+//				R.id.tvText, headerList));
+//		resGrid.setNumColumns(5);
+//		resGrid.setVerticalSpacing(2);
+//		resGrid.setHorizontalSpacing(2);
+//		resGrid.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+//		resGrid.setClickable(false);
 
-		resGrid.setNumColumns(5);
-		resGrid.setVerticalSpacing(2);
-		resGrid.setHorizontalSpacing(2);
-
-		resGrid.setClickable(false);
-
-		TextView textHead = (TextView) findViewById(R.id.textResult);
-		InputData iData = dSource.getLastInputData();
-
-		// textHead.setText(getResources().getString(R.string.sumCred) + ": "
-		// + MoneyConvertor.convertToMoneyFormat(payoutFee) + "\n"
-		// + getResources().getString(R.string.percent) + ": "
-		// + NumberFormat.getInstance(Locale.getDefault()).format(percent)
-		// + "%");
-		textHead.setText(getResources().getString(R.string.name_calc)
-				+ ": "
-				+ iData.getName()
-				+ "\n"
-				+ getResources().getString(R.string.sumCred)
-				+ ": "
-				+ MoneyConvertor.convertToMoneyFormat(iData.getSum())
-				+ "\n"
-				+ getResources().getString(R.string.percent)
-				+ ": "
-				+ NumberFormat.getInstance(Locale.getDefault()).format(
-						iData.getPercent()) + "\n"
-				+ getResources().getString(R.string.date_of_issue) + ": "
-				+ iData.getBeginDate());
-	}
-
+			}
+*/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.result, menu);

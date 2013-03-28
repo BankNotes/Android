@@ -72,7 +72,7 @@ public class DataSource {
 					cur.getString(1), cur.getInt(7), false, cur.getString(2),
 					cur.getInt(5), cur.getString(4));
 			cur.close();
-			
+
 		}
 		return lastInputData;
 	}
@@ -106,14 +106,18 @@ public class DataSource {
 				null, DataBaseSQLHelper.PAYMENTS_COLUMN_PAY_ID);
 		ArrayList<RowOfSheduller> rows = new ArrayList<RowOfSheduller>();
 		if (cur != null) {
+			
 			cur.moveToFirst();
-			while (!cur.isLast()) {
+			int step = 0;
+			while (cur.moveToNext()) {
 				RowOfSheduller row = new RowOfSheduller(cur.getInt(0),
 						cur.getString(1), cur.getDouble(2), cur.getDouble(3),
 						cur.getDouble(4), cur.getDouble(5));
 				rows.add(row);
 				cur.moveToNext();
+				step++;
 			}
+			
 			cur.close();
 			return rows;
 		}
@@ -122,9 +126,9 @@ public class DataSource {
 	}
 
 	public RowOfSheduller getTotalsSheduler() {
-		String[] columns = { 
-				
-				DataBaseSQLHelper.PAYMENTS_COLUMN_PAY,
+		String[] columns = {
+
+		DataBaseSQLHelper.PAYMENTS_COLUMN_PAY,
 				DataBaseSQLHelper.PAYMENTS_COLUMN_PAY_FEE,
 				DataBaseSQLHelper.PAYMENTS_COLUMN_PAY_PERCENT, };
 		String[] args = { getLastIdCalc() + "" };
@@ -133,7 +137,7 @@ public class DataSource {
 				DataBaseSQLHelper.PAYMENTS_COLUMN_ID_CALC, null, null);
 		RowOfSheduller rowTotal = null;
 		if (cur != null) {
-			cur.moveToLast();
+			cur.moveToFirst();
 			rowTotal = new RowOfSheduller(0, "", cur.getDouble(0),
 					cur.getDouble(2), cur.getDouble(1), 0.0);
 			cur.close();

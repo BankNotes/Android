@@ -96,7 +96,7 @@ public class PaymentsSheduler {
 				sumOfCredit = inputData.getSum();
 			}
 			if (inputData.getCalcType().equals(InputData.BY_PROFIT)) {
-				payment = inputData.getSum() * 0.4; // profit
+				payment = inputData.getSum() * 0.4; // profit (zp)
 				sumOfCredit = payment
 						/ ((inputData.getPercent() / 1200 * Math.pow(
 								(1 + inputData.getPercent() / 1200),
