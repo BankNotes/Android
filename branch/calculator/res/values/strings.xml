@@ -10,7 +10,7 @@
     <string name="anuitent">Annuity</string>
     <string name="different">Different payment</string>
     <string name="calculate">Calculate</string>
-    <string name="title_activity_result">Result</string>
+    <string name="title_activity_result">Sheduler payment</string>
     <string name="sumPay">Ammount of payment</string>
     <string name="sumProfit">Ammount of incom</string>
     <string name="bySumOfLoan">By sum of the loan</string>
@@ -22,6 +22,7 @@
     <string name="errMesDateAmmount">Date of ammount is empty!</string>
     <string name="errMesSumPay">Payment sum is empty!</string>
     <string-array name="headerResult">
+        <item>Number</item>
         <item>Pay Date</item>
         <item>Payment</item>
         <item>Interest</item>
@@ -66,4 +67,5 @@
     <string name="name_calc">Name of calculation</string>
     <string name="errMesNameCalc">Name of computation is empty!</string>
     <string name="period_list">Period of payments, months</string>
+    <string name="payment_type">Payment type</string>
 </resources>

@@ -56,11 +56,7 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 	private Button calculateButtn;
 	private CharSequence[] loanTypes, calcTypes;
 
-	// private int calcType = 0;
-	private String calcType;
-//	private final int BY_SUM = 0;
-//	private final int BY_PAY = 1;
-//	private final int BY_PROFIT = 2;
+	private int calcType;
 
 	private DataSource dSource;
 
@@ -143,19 +139,8 @@ public class LoanCalculatorMainForm extends FragmentActivity implements
 
 	public void onItemSelected(AdapterView<?> parent, View v, int position,
 			long id) {
-
-		// calcType = position;
-		switch (position) {
-		case 0:
-			calcType = InputData.BY_SUM;
-			break;
-		case 1:
-			calcType = InputData.BY_PAY;
-			break;
-		case 2:
-			calcType = InputData.BY_PROFIT;
-			break;
-		}
+		
+		calcType = position;
 		editTextInputSum.setHint(calcTypes[position]);
 	}
 

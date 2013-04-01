@@ -29,24 +29,13 @@
             android:label="@string/title_activity_main" />
         <activity
             android:name="calculator.ru.activity.showsheduler.Result"
-            android:label="@string/title_activity_result" />
+            android:label="@string/title_activity_result"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".CalcBySumPayumPay"
             android:label="@string/title_activity_main" />
         <activity android:name="calculator.ru.activity.ListOfCalcs" />
 
-<!--         <provider -->
-<!--             android:name="calculator.dbase.content.provider.PaymentsContentProvider" -->
-<!--             android:authorities="calculator.dbase.paymentscontentprovider" /> -->
-<!--         <provider -->
-<!--             android:name="calculator.dbase.content.provider.InputDataContentProvider" -->
-<!--             android:authorities="calculator.dbase.inputdatacontentprovider" /> -->
-<!--         <provider -->
-<!--          calculator.dbase.content.provider.TotalsContentProviderlsContentProvider" -->
-<!--             android:authorities="calculator.dbase.totalscontentprovider" /> -->
-<!--         <provider -->
-<!--             android:name="calculator.dbase.content.provider.ListOfLoanContentProvider" -->
-<!--             android:authorities="calculator.dbase.listofloancontentprovider" /> -->
     </application>
 
 </manifest>

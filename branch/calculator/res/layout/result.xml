@@ -2,34 +2,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     android:orientation="vertical" >
-<!--     android:background="#000000" -->
-    
+
+    <TextView
+        android:id="@+id/name_calculation_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#E2D9D8"
+        android:textIsSelectable="false" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#E2D9D9" >
+        android:background="#E2D9D9"
+        android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/textResult"
-            android:layout_width="wrap_content"
+        <GridView
+            android:id="@+id/header_info_result"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textIsSelectable="true" />
+            android:textColor="#000000" >
+        </GridView>
     </LinearLayout>
 
-    <GridView
-        android:id="@+id/result_header"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <GridView
+            android:id="@+id/result_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </GridView>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </GridView>
 
-    <GridView
-        android:id="@+id/result_grid"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-         >
-    </GridView>
+        <GridView
+            android:id="@+id/result_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </GridView>
+    </LinearLayout>
 
 </LinearLayout>

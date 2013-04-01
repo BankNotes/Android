@@ -14,8 +14,7 @@ package usless.calculator.dbase.content.provider;
 
 import java.util.HashMap;
 
-import calculator.dbase.DbHelper;
-
+import usless.calculator.dbase.calculator.DbHelper;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;

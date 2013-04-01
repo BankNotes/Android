@@ -3,13 +3,26 @@ package calculator.ru.activity.allcomputs;
 public class ItemOfCalc {
 
 	int id, period;
-	double sum, percent;
+	double sum, percent, overpayment, totalPayments, prinicipal;
+
 	String beginDate, endDate, creditType, calcType, nameCalc;
 	boolean checked;
 
-	public ItemOfCalc(int id, int period, double sum, double percent,
-			String beginDate, String endDate, String creditType,
-			String calcType, String nameCalc, boolean checked) {
+	public ItemOfCalc(
+			int id, 
+			int period, 
+			double sum, 
+			double percent,
+			String beginDate, 
+			String endDate, 
+			String creditType,
+			String calcType, 
+			String nameCalc, 
+			boolean checked,
+			double overpayment, 
+			double totalPayments, 
+			double principal) 
+	{
 		this.id = id;
 		this.period = period;
 		this.sum = sum;
@@ -20,6 +33,9 @@ public class ItemOfCalc {
 		this.calcType = calcType;
 		this.checked = checked;
 		this.nameCalc = nameCalc;
+		this.overpayment=overpayment;
+		this.totalPayments=totalPayments;
+		this.prinicipal=principal;
 	}
 
 	public int getId() {
@@ -69,5 +85,29 @@ public class ItemOfCalc {
 
 	public String getNameCalc() {
 		return this.nameCalc;
+	}
+
+	public double getOverpayment() {
+		return overpayment;
+	}
+
+	public void setOverpayment(double overpayment) {
+		this.overpayment = overpayment;
+	}
+
+	public double getTotalPayments() {
+		return totalPayments;
+	}
+
+	public void setTotalPayments(double totalPayments) {
+		this.totalPayments = totalPayments;
+	}
+
+	public double getPrinicipal() {
+		return prinicipal;
+	}
+
+	public void setPrinicipal(double prinicipal) {
+		this.prinicipal = prinicipal;
 	}
 }

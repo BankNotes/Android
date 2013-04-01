@@ -10,7 +10,7 @@
     <string name="anuitent">Аннуитент</string>
     <string name="different">Дифф. платеж</string>
     <string name="calculate">Расчитать</string>
-    <string name="title_activity_result">Результат</string>
+    <string name="title_activity_result">График платежей</string>
     <string name="sumPay">Сумма платежа</string>
     <string name="sumProfit">Сумма дохода</string>
     <string name="bySumOfLoan">По сумме кредита</string>
@@ -22,6 +22,7 @@
     <string name="errMesDateAmmount">Не введена дата выдачи кредита!</string>
     <string name="errMesSumPay">Не введена сумма платежа!</string>
     <string-array name="headerResult">
+        <item>№ платежа</item>
         <item>Дата платежа</item>
         <item>Платеж</item>
         <item>Проценты</item>
@@ -64,4 +65,5 @@
     <string name="name_calc">Название расчета</string>
     <string name="errMesNameCalc">Название расчета пусто!</string>
     <string name="period_list">Период кредитования,\nмесяцев</string>
+    <string name="payment_type">Тип платежа</string>
 </resources>

@@ -28,18 +28,16 @@ public class PaymentsSheduler {
 				DataBaseSQLHelper.INPUT_DATA_COLUMN_BEGINDATE,
 				DataBaseSQLHelper.INPUT_DATA_COLUMN_PERIOD,
 				DataBaseSQLHelper.INPUT_DATA_COLUMN_PAYTYPE_IS_ANNUITET,
-				DataBaseSQLHelper.INPUT_DATA_COLUMN_COMP_TYPE,
+				DataBaseSQLHelper.INPUT_DATA_COLUMN_CALCULATION_TYPE,
 				DataBaseSQLHelper.INPUT_DATA_COLUMN_NAME };
-		// Cursor cursor = dBase.query(DataBaseSQLHelper.TABLE_INPUT_DATA,
-		// columns, null, null, null, null,
-		// DataBaseSQLHelper.INPUT_DATA_COLUMN_ID);
+
 		Cursor cursor = dBase.query(DataBaseSQLHelper.TABLE_INPUT_DATA,
 				columns, null, null, null, null, null);
 		double inputSum = 0;
 		double percent = 0;
 		int period = 0;
 		String beginDate = "";
-		String calcType = "";
+		int calcType = 0;
 		int isAnnuitet = 0;
 		String nameCalc = "";
 		boolean isYearPeriod = false;
@@ -52,7 +50,7 @@ public class PaymentsSheduler {
 			beginDate = cursor.getString(3);
 			period = cursor.getInt(4);
 			isAnnuitet = cursor.getInt(5);
-			calcType = cursor.getString(6);
+			calcType = cursor.getInt(6);
 			nameCalc = cursor.getString(7);
 		}
 
@@ -64,23 +62,16 @@ public class PaymentsSheduler {
 
 	public void createSheduler() {
 
-		if (inputData.isAnnuitetPayment() == 1) {
+		if (inputData.getPaymentType() == 1) {
 			double k = (inputData.getPercent() / 1200 * Math.pow(
 					(1 + inputData.getPercent() / 1200), inputData.getPeriod()))
 					/ (Math.pow((1 + inputData.getPercent() / 1200),
 							inputData.getPeriod()) - 1);
 
-			
 			double payment = 0;
 
-			if (inputData.getCalcType().equals(InputData.BY_PAY)) {
-				// sumOfCredit = inputData.getSum()
-				// / (inputData.getPercent() / 1200 * Math.pow(
-				// (1 + inputData.getPercent() / 1200),
-				// inputData.getPeriod()))
-				// / (Math.pow((1 + inputData.getPercent() / 1200),
-				// inputData.getPeriod()) - 1);
-
+			switch (inputData.getCalcType()) {
+			case InputData.BY_PAY:
 				sumOfCredit = inputData.getSum()
 						/ ((inputData.getPercent() / 1200 * Math.pow(
 								(1 + inputData.getPercent() / 1200),
@@ -88,14 +79,14 @@ public class PaymentsSheduler {
 								(1 + inputData.getPercent() / 1200),
 								inputData.getPeriod()) - 1));
 				payment = inputData.getSum();
+				break;
 
-			}
-
-			if (inputData.getCalcType().equals(InputData.BY_SUM)) {
+			case InputData.BY_SUM:
 				payment = k * inputData.getSum();
 				sumOfCredit = inputData.getSum();
-			}
-			if (inputData.getCalcType().equals(InputData.BY_PROFIT)) {
+				break;
+
+			case InputData.BY_PROFIT:
 				payment = inputData.getSum() * 0.4; // profit (zp)
 				sumOfCredit = payment
 						/ ((inputData.getPercent() / 1200 * Math.pow(
@@ -103,13 +94,16 @@ public class PaymentsSheduler {
 								inputData.getPeriod())) / (Math.pow(
 								(1 + inputData.getPercent() / 1200),
 								inputData.getPeriod()) - 1));
+				break;
 			}
-			
+
 			ContentValues values = new ContentValues();
-			values.put(DataBaseSQLHelper.INPUT_DATA_COLUMN_CREDIT_SUM, sumOfCredit);
-			String[] whereArgs = {id+""};
-			dBase.update(DataBaseSQLHelper.TABLE_INPUT_DATA, values, DataBaseSQLHelper.INPUT_DATA_COLUMN_ID+"=?", whereArgs);
-			
+			values.put(DataBaseSQLHelper.INPUT_DATA_COLUMN_SUM_OF_LOAN,
+					sumOfCredit);
+			String[] whereArgs = { id + "" };
+			dBase.update(DataBaseSQLHelper.TABLE_INPUT_DATA, values,
+					DataBaseSQLHelper.INPUT_DATA_COLUMN_ID + "=?", whereArgs);
+
 			double firstPayPercent = sumOfCredit * inputData.getPercent()
 					/ 1200;
 			double firstPayFee = payment - firstPayPercent;
@@ -133,8 +127,7 @@ public class PaymentsSheduler {
 					firstRemain);
 
 			dBase.insert(DataBaseSQLHelper.TABLE_PAYMENTS, null, paymentsValues);
-//			paymentsValues.clear();
-			
+
 			double payPercent = firstRemain * inputData.getPercent() / 1200;
 			double payFee = payment - payPercent;
 			double remain = firstRemain - payFee;
@@ -160,8 +153,7 @@ public class PaymentsSheduler {
 
 				dBase.insert(DataBaseSQLHelper.TABLE_PAYMENTS, null,
 						paymentsValues);
-//				paymentsValues.clear();
-				
+
 				paymentDate = getNextPayDate(paymentDate);
 
 				payPercent = remain * inputData.getPercent() / 1200;
@@ -172,25 +164,41 @@ public class PaymentsSheduler {
 
 		}
 
-		if (inputData.isAnnuitetPayment() == 0) {
+		// dif
+		if (inputData.getPaymentType() == 0) {
 			double sumOfCredit = 0;
 			double payment = 0;
 			double payPercent = 0;
 			double payFee = 0;
-			if (inputData.getCalcType().equals(InputData.BY_SUM)) {
-				sumOfCredit = inputData.getSum();
 
-			}
-			if (inputData.getCalcType().equals(InputData.BY_PAY)) {
+			switch (inputData.getCalcType()) {
+			case InputData.BY_SUM:
+				sumOfCredit = inputData.getSum();
+				break;
+
+			case InputData.BY_PAY:
 				sumOfCredit = (1200 * inputData.getPeriod() * inputData
 						.getSum())
 						/ (inputData.getPercent() * inputData.getPeriod() + 1200);
+				break;
+			case InputData.BY_PROFIT:
+				payment = inputData.getSum() * 0.4;
+				sumOfCredit = payment
+						/ ((inputData.getPercent() / 1200 * Math.pow(
+								(1 + inputData.getPercent() / 1200),
+								inputData.getPeriod())) / (Math.pow(
+								(1 + inputData.getPercent() / 1200),
+								inputData.getPeriod()) - 1));
+				break;
 			}
-			if (inputData.getCalcType().equals(InputData.BY_PROFIT)) {
-				payment = inputData.getSum() / 0.4;
-				sumOfCredit = (1200 * inputData.getPeriod() * payment)
-						/ (inputData.getPercent() * inputData.getPeriod() + 1200);
-			}
+
+			ContentValues values = new ContentValues();
+			values.put(DataBaseSQLHelper.INPUT_DATA_COLUMN_SUM_OF_LOAN,
+					sumOfCredit);
+			String[] whereArgs = { id + "" };
+			dBase.update(DataBaseSQLHelper.TABLE_INPUT_DATA, values,
+					DataBaseSQLHelper.INPUT_DATA_COLUMN_ID + "=?", whereArgs);
+
 			payFee = sumOfCredit / inputData.getPeriod();
 			payPercent = sumOfCredit * inputData.getPercent() / 1200;
 			payment = payFee + payPercent;
@@ -217,21 +225,6 @@ public class PaymentsSheduler {
 			}
 
 		}
-
-		// String[] columns = { DataBaseSQLHelper.PAYMENTS_COLUMN_PAY_ID,
-		// DataBaseSQLHelper.PAYMENTS_COLUMN_PAY_DATE,
-		// DataBaseSQLHelper.PAYMENTS_COLUMN_PAY,
-		// DataBaseSQLHelper.PAYMENTS_COLUMN_PAY_PERCENT,
-		// DataBaseSQLHelper.PAYMENTS_COLUMN_PAY_FEE,
-		// DataBaseSQLHelper.PAYMENTS_COLUMN_REMAIN };
-		// String selection = DataBaseSQLHelper.PAYMENTS_COLUMN_ID_CALC + "=?";
-		// String[] selectionArgs = { id + "" };
-		//
-		// Cursor cursor = dBase.query(DataBaseSQLHelper.TABLE_PAYMENTS,
-		// columns,
-		// selection, selectionArgs, null, null,
-		// DataBaseSQLHelper.PAYMENTS_COLUMN_PAY_ID);
-		// return cursor;
 
 	}
 

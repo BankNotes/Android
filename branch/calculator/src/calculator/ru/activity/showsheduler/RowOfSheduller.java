@@ -15,8 +15,13 @@ public class RowOfSheduller {
 	private double payFee;
 	private double remain;
 
-	public RowOfSheduller(int payId, String payDate, double payment,
-			double payPercent, double payFee, double remain) {
+	public RowOfSheduller(
+			int payId, 
+			String payDate, 
+			double payment,
+			double payPercent, 
+			double payFee, 
+			double remain) {
 		this.payId = payId;
 		this.payDate= payDate;
 		this.payment = payment;

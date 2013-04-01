@@ -6,17 +6,17 @@ public class InputData {
 	private String beginDate;
 	private int period;
 	private int isAnnuityPayment;
-	private String calcType;
+	private int calcType;
 	private String name;
 	private boolean isYearPeriod;
-//	private double sumCredit;
 
-	public static final String BY_SUM = "by_sum";
-	public static final String BY_PAY = "by_pay";
-	public static final String BY_PROFIT = "by_profit";
+
+	public static final int BY_SUM = 0;
+	public static final int BY_PAY = 1;
+	public static final int BY_PROFIT = 2;
 
 	public InputData(double inputSum, double percent, String beginDate,
-			int period, boolean isYearPeriod, String calcType, int payType,
+			int period, boolean isYearPeriod, int calcType, int payType,
 			String name) {
 		setSum(inputSum);
 		setPercent(percent);
@@ -26,7 +26,7 @@ public class InputData {
 		this.setYearPeriod(isYearPeriod);
 		setPeriod(period, isYearPeriod);
 		setCalcType(calcType);
-//		setSumCredit(sumCredit);
+
 	}
 
 	public double getSum() {
@@ -65,7 +65,7 @@ public class InputData {
 		}
 	}
 
-	public int isAnnuitetPayment() {
+	public int getPaymentType() {
 		return isAnnuityPayment;
 	}
 
@@ -81,11 +81,11 @@ public class InputData {
 		this.name = name;
 	}
 
-	public String getCalcType() {
+	public int getCalcType() {
 		return calcType;
 	}
 
-	public void setCalcType(String calcType) {
+	public void setCalcType(int calcType) {
 		this.calcType = calcType;
 	}
 
@@ -97,11 +97,5 @@ public class InputData {
 		this.isYearPeriod = isYearPeriod;
 	}
 
-//	public double getSumCredit() {
-//		return sumCredit;
-//	}
-//
-//	public void setSumCredit(double sumCredit) {
-//		this.sumCredit = sumCredit;
-//	}
+
 }
