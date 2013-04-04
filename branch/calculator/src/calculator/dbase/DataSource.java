@@ -257,10 +257,10 @@ public class DataSource {
 				list.add(iCreator.getItemOfCalc());
 			}
 			cursor.close();
-			return list;
+
 		}
 		cursor.close();
-		return null;
+		return list;
 	}
 
 	public void close() {

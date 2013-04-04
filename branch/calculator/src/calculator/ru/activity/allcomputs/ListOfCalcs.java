@@ -15,7 +15,7 @@ public class ListOfCalcs extends Activity {
 
 	private DataSource dSource;
 
-	private ArrayList<ItemOfCalc> arrayListOfCalcs;
+	private ArrayList<ItemOfCalc> arrayListOfCalcs = new ArrayList<ItemOfCalc>();;
 
 	MyListAdapter myAdapter;
 	ListView lView;
@@ -23,12 +23,9 @@ public class ListOfCalcs extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_of_calcs);
-		// this.cResolver = getContentResolver();
 
 		dSource = new DataSource(this);
 		dSource.open();
-		arrayListOfCalcs = new ArrayList<ItemOfCalc>();// dSource.getListOfCalculations();
-		myAdapter = new MyListAdapter(this, arrayListOfCalcs);
 
 		updateList();
 
@@ -51,11 +48,12 @@ public class ListOfCalcs extends Activity {
 
 	private void updateList() {
 		arrayListOfCalcs.clear();
-		if (!dSource.getListOfCalculations().equals(null)) {
-			for (ItemOfCalc item : dSource.getListOfCalculations()) {
-				arrayListOfCalcs.add(item);
-			}
+
+		for (ItemOfCalc item : dSource.getListOfCalculations()) {
+			arrayListOfCalcs.add(item);
 		}
+
+		myAdapter = new MyListAdapter(this, arrayListOfCalcs);
 		lView = (ListView) findViewById(R.id.my_list);
 		lView.setAdapter(myAdapter);
 

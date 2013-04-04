@@ -103,11 +103,5 @@ public class ItemOfCalc {
 		this.totalPayments = totalPayments;
 	}
 
-//	public double getPrinicipal() {
-//		return prinicipal;
-//	}
-//
-//	public void setPrinicipal(double prinicipal) {
-//		this.prinicipal = prinicipal;
-//	}
+
 }
