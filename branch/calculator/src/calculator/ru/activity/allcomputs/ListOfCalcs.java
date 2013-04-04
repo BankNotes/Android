@@ -27,7 +27,8 @@ public class ListOfCalcs extends Activity {
 
 		dSource = new DataSource(this);
 		dSource.open();
-		arrayListOfCalcs = dSource.getListOfCalculations();
+		arrayListOfCalcs = new ArrayList<ItemOfCalc>();// dSource.getListOfCalculations();
+		myAdapter = new MyListAdapter(this, arrayListOfCalcs);
 
 		updateList();
 
@@ -50,10 +51,11 @@ public class ListOfCalcs extends Activity {
 
 	private void updateList() {
 		arrayListOfCalcs.clear();
-		for (ItemOfCalc item : dSource.getListOfCalculations()) {
-			arrayListOfCalcs.add(item);
+		if (!dSource.getListOfCalculations().equals(null)) {
+			for (ItemOfCalc item : dSource.getListOfCalculations()) {
+				arrayListOfCalcs.add(item);
+			}
 		}
-
 		lView = (ListView) findViewById(R.id.my_list);
 		lView.setAdapter(myAdapter);
 

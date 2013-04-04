@@ -4,6 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * @author skobelev
+ * This class generates data base
+ */
 public class DataBaseSQLHelper extends SQLiteOpenHelper {
 
 	public static final String TABLE_INPUT_DATA = "input_data";
@@ -44,25 +48,16 @@ public class DataBaseSQLHelper extends SQLiteOpenHelper {
 	public static final String LIST_COLUMN_NAME_CALC = "name_calc";
 	public static final String LIST_COLUMN_OVERPAYMENT = "overpayment";
 	public static final String LIST_COLUMN_TOTAL_PAYMENT = "total_payment";
-	public static final String LIST_COLUMN_PRINCIPAL = "principal";
+//	public static final String LIST_COLUMN_PRINCIPAL = "principal";
 
 	public static final String TABLE_CALCULATION_TYPE_NAMES = "calc_types_names";
 	public static final String CALC_TYPE_NAMES_COLUMN_ID = "id";
 	public static final String CALC_TYPE_NAMES_COLUMN_NAME = "name";
 
-	// int id,
-	// int period,
-	// double sum,
-	// double percent,
-	// String beginDate,
-	// String endDate,
-	// String creditType,
-	// String calcType,
-	// String nameCalc,
-	// boolean checked,
-	// double overpayment,
-	// double totalPayments,
-	// double principal
+	public static final String TABLE_PAYMENT_TYPES = "payment_types";
+	public static final String PAYMENT_TYPE_COLUMN_ID = "id_type";
+	public static final String PAYMENT_TYPE_COLUMN_PAYMENT_NAME="payment_name";
+	
 
 	private static final String DATABASE_NAME = "calc.db";
 	private static final int DATABASE_VERSION = 1;
@@ -100,8 +95,8 @@ public class DataBaseSQLHelper extends SQLiteOpenHelper {
 			+ " text, " + LIST_COLUMN_CREDIT_TYPE + " text, "
 			+ LIST_COLUMN_CALC_TYPE + " text, " + LIST_COLUMN_NAME_CALC
 			+ " text, " + LIST_COLUMN_OVERPAYMENT + " real, "
-			+ LIST_COLUMN_TOTAL_PAYMENT + " real, " + LIST_COLUMN_PRINCIPAL
-			+ " real);";
+			+ LIST_COLUMN_TOTAL_PAYMENT + " real);"; 
+//					", " + LIST_COLUMN_PRINCIPAL 	+ " real);";
 
 	private static final String CREATE_TABLE_CALCULATION_TYPE_NAMES = "create table "
 			+ TABLE_CALCULATION_TYPE_NAMES
@@ -109,6 +104,10 @@ public class DataBaseSQLHelper extends SQLiteOpenHelper {
 			+ CALC_TYPE_NAMES_COLUMN_ID
 			+ " integer, " + CALC_TYPE_NAMES_COLUMN_NAME + " text);";
 
+	private static final String CREATE_TABLE_PAYMENT_TYPES = "create table "
+			+ TABLE_PAYMENT_TYPES +" ( "
+			+ PAYMENT_TYPE_COLUMN_ID +" integer, "
+			+ PAYMENT_TYPE_COLUMN_PAYMENT_NAME + " text);";
 	public DataBaseSQLHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
@@ -120,6 +119,7 @@ public class DataBaseSQLHelper extends SQLiteOpenHelper {
 		dBase.execSQL(CREATE_TABLE_LIST_OF_LOAN);
 		dBase.execSQL(CREATE_TABLE_TOTALS);
 		dBase.execSQL(CREATE_TABLE_CALCULATION_TYPE_NAMES);
+		dBase.execSQL(CREATE_TABLE_PAYMENT_TYPES);
 	}
 
 	public void onUpgrade(SQLiteDatabase dBase, int oldVersion, int newVersion) {
@@ -131,7 +131,7 @@ public class DataBaseSQLHelper extends SQLiteOpenHelper {
 		 * }
 		 */
 		String[] tables = { TABLE_INPUT_DATA, TABLE_PAYMENTS, TABLE_TOTALS,
-				TABLE_LIST_OF_LOAN, TABLE_CALCULATION_TYPE_NAMES };
+				TABLE_LIST_OF_LOAN, TABLE_CALCULATION_TYPE_NAMES, TABLE_PAYMENT_TYPES };
 		for (String table : tables) {
 			dBase.execSQL("drop table if exists " + table + ";");
 		}

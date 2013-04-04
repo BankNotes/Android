@@ -11,7 +11,7 @@ public class ItemOfCalc {
 	public ItemOfCalc(
 			int id, 
 			int period, 
-			double sum, 
+			double sumOfLoan, 
 			double percent,
 			String beginDate, 
 			String endDate, 
@@ -20,12 +20,12 @@ public class ItemOfCalc {
 			String nameCalc, 
 			boolean checked,
 			double overpayment, 
-			double totalPayments, 
-			double principal) 
+			double totalPayments) 
+//			double principal) 
 	{
 		this.id = id;
 		this.period = period;
-		this.sum = sum;
+		this.sum = sumOfLoan;
 		this.percent = percent;
 		this.beginDate = beginDate;
 		this.endDate = endDate;
@@ -35,18 +35,18 @@ public class ItemOfCalc {
 		this.nameCalc = nameCalc;
 		this.overpayment=overpayment;
 		this.totalPayments=totalPayments;
-		this.prinicipal=principal;
+//		this.prinicipal=principal;
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public String getSum() {
+	public String getSumOfLoan() {
 		return this.sum + "";
 	}
 
-	public double getDoubleSum() {
+	public double getDoubleSumOfLoan() {
 		return this.sum;
 	}
 
@@ -103,11 +103,11 @@ public class ItemOfCalc {
 		this.totalPayments = totalPayments;
 	}
 
-	public double getPrinicipal() {
-		return prinicipal;
-	}
-
-	public void setPrinicipal(double prinicipal) {
-		this.prinicipal = prinicipal;
-	}
+//	public double getPrinicipal() {
+//		return prinicipal;
+//	}
+//
+//	public void setPrinicipal(double prinicipal) {
+//		this.prinicipal = prinicipal;
+//	}
 }

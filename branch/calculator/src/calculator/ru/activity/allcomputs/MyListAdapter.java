@@ -61,7 +61,7 @@ public class MyListAdapter extends BaseAdapter {
 		((TextView)view.findViewById(R.id.name_Calc)).setText(myItem.getNameCalc());
 		
 		((TextView) view.findViewById(R.id.sum)).setText(MoneyConvertor
-				.convertToMoneyFormat(myItem.getDoubleSum()));
+				.convertToMoneyFormat(myItem.getDoubleSumOfLoan()));
 		
 		((TextView) view.findViewById(R.id.percent)).setText(myItem.getPercent());
 		

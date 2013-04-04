@@ -16,6 +16,9 @@ public class DataSource {
 	DataBaseSQLHelper dbSqlHelper;
 	Context context;
 
+	/**
+	 * This class provides access to data base from other classes
+	 */
 	public DataSource(Context context) {
 		dbSqlHelper = new DataBaseSQLHelper(context);
 		this.context = context;
@@ -42,6 +45,22 @@ public class DataSource {
 		}
 		cur.close();
 
+		Cursor cur2 = myBase.query(DataBaseSQLHelper.TABLE_PAYMENT_TYPES, null,
+				null, null, null, null, null);
+		if (cur2.getCount() == 0) {
+			ContentValues crValues = new ContentValues();
+			crValues.put(DataBaseSQLHelper.PAYMENT_TYPE_COLUMN_ID, 0);
+			crValues.put(DataBaseSQLHelper.PAYMENT_TYPE_COLUMN_PAYMENT_NAME,
+					context.getResources().getString(R.string.different));
+			myBase.insert(DataBaseSQLHelper.TABLE_PAYMENT_TYPES, null, crValues);
+			crValues.clear();
+			crValues.put(DataBaseSQLHelper.PAYMENT_TYPE_COLUMN_ID, 1);
+			crValues.put(DataBaseSQLHelper.PAYMENT_TYPE_COLUMN_PAYMENT_NAME,
+					context.getResources().getString(R.string.anuitent));
+			myBase.insert(DataBaseSQLHelper.TABLE_PAYMENT_TYPES, null, crValues);
+		}
+		cur2.close();
+
 	}
 
 	public long insertInputData(InputData inputData) {
@@ -65,7 +84,7 @@ public class DataSource {
 		long insertId = myBase.insert(DataBaseSQLHelper.TABLE_INPUT_DATA, null,
 				cValues);
 
-		PaymentsSheduler paySheduler = new PaymentsSheduler(context);
+		PaymentsSheduler paySheduler = new PaymentsSheduler(myBase);
 		paySheduler.createSheduler();
 
 		return insertId;
@@ -130,14 +149,8 @@ public class DataSource {
 		if (!cur.equals(null)) {
 
 			cur.moveToFirst();
-			String beginDate = "";
-			String endDate = "";
 
 			while (!cur.isAfterLast()) {
-
-				if (cur.getPosition() == 0) {
-					beginDate = cur.getString(1);
-				}
 
 				RowOfSheduller row = new RowOfSheduller(cur.getInt(0),
 						cur.getString(1), cur.getDouble(2), cur.getDouble(3),
@@ -147,20 +160,8 @@ public class DataSource {
 				}
 				rows.add(row);
 				cur.moveToNext();
-				if (cur.isLast()) {
-					endDate = cur.getString(1);
-				}
+
 			}
-
-			ContentValues values = new ContentValues();
-			int currentId = getLastIdCalc();
-			values.put(DataBaseSQLHelper.LIST_COLUMN_ID_CALC, currentId);
-			values.put(DataBaseSQLHelper.LIST_COLUMN_BEGIN_DATE, beginDate);
-			// values.put(DataBaseSQLHelper.LIST_COLUMN_CALC_TYPE,
-			// cur.getInt(2));
-			values.put(DataBaseSQLHelper.LIST_COLUMN_END_DATE, endDate);
-
-			myBase.insert(DataBaseSQLHelper.TABLE_LIST_OF_LOAN, null, values);
 
 			cur.close();
 			return rows;
@@ -200,6 +201,7 @@ public class DataSource {
 					rowTotal.getPayPercent());
 
 			myBase.insert(DataBaseSQLHelper.TABLE_TOTALS, null, values);
+
 			return rowTotal;
 		}
 
@@ -239,7 +241,25 @@ public class DataSource {
 	}
 
 	public ArrayList<ItemOfCalc> getListOfCalculations() {
+		ArrayList<ItemOfCalc> list = new ArrayList<ItemOfCalc>();
 
+		String[] cols = { DataBaseSQLHelper.INPUT_DATA_COLUMN_ID };
+		Cursor cursor = myBase.query(DataBaseSQLHelper.TABLE_INPUT_DATA, cols,
+				null, null, null, null, null);
+		if (cursor.getCount() > 0) {
+			int[] args = new int[cursor.getCount()];
+			for (int i = 0; i < cursor.getCount(); i++) {
+				cursor.moveToPosition(i);
+				args[i] = cursor.getInt(0);
+			}
+			for (int i = 0; i < args.length; i++) {
+				ItemCreator iCreator = new ItemCreator(args[i], myBase);
+				list.add(iCreator.getItemOfCalc());
+			}
+			cursor.close();
+			return list;
+		}
+		cursor.close();
 		return null;
 	}
 

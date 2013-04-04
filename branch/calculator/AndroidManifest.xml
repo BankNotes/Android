@@ -32,9 +32,10 @@
             android:label="@string/title_activity_result"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".CalcBySumPayumPay"
-            android:label="@string/title_activity_main" />
-        <activity android:name="calculator.ru.activity.ListOfCalcs" />
+            android:name="calculator.ru.activity.allcomputs.ListOfCalcs"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" />
+        
 
     </application>
 

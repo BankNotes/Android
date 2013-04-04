@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -18,10 +17,10 @@ public class PaymentsSheduler {
 	private InputData inputData;
 	private double sumOfCredit = 0;
 
-	public PaymentsSheduler(Context context) {
-		dHelper = new DataBaseSQLHelper(context);
-
-		dBase = dHelper.getWritableDatabase();
+	public PaymentsSheduler(SQLiteDatabase dBase) {
+//		dHelper = new DataBaseSQLHelper(context);
+		this.dBase=dBase;
+//		dBase = dHelper.getWritableDatabase();
 		String[] columns = { DataBaseSQLHelper.INPUT_DATA_COLUMN_ID,
 				DataBaseSQLHelper.INPUT_DATA_COLUMN_INPUTSUM,
 				DataBaseSQLHelper.INPUT_DATA_COLUMN_PERCENT,

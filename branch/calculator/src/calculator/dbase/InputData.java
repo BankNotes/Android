@@ -15,6 +15,17 @@ public class InputData {
 	public static final int BY_PAY = 1;
 	public static final int BY_PROFIT = 2;
 
+	/**
+	 * This is class provides saving input data
+	 * @param inputSum
+	 * @param percent
+	 * @param beginDate
+	 * @param period
+	 * @param isYearPeriod
+	 * @param calcType
+	 * @param payType
+	 * @param name
+	 */
 	public InputData(double inputSum, double percent, String beginDate,
 			int period, boolean isYearPeriod, int calcType, int payType,
 			String name) {
