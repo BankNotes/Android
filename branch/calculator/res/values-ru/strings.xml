@@ -66,4 +66,5 @@
     <string name="errMesNameCalc">Название расчета пусто!</string>
     <string name="period_list">Период кредитования,\nмесяцев</string>
     <string name="payment_type">Тип платежа</string>
+    <string name="watchButton">Показать график</string>
 </resources>

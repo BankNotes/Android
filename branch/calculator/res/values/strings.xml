@@ -68,4 +68,5 @@
     <string name="errMesNameCalc">Name of computation is empty!</string>
     <string name="period_list">Period of payments, months</string>
     <string name="payment_type">Payment type</string>
+    <string name="watchButton">Show computation</string>
 </resources>
